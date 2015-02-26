@@ -29,8 +29,22 @@ button {
 </style>
 <body>
 <script src="http://d3js.org/d3.v2.js"></script>
-
-
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    
+<div class="btn-group pull-right">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+               Movies<span class="caret"></span>
+        </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a class="m" value="hp1" href="#">Gravity</a></li>
+            <li><a class="m" value="hp2" href="#">Pulp Fiction</a></li>
+            <li><a class="m" value="hp3" href="#">The Wizard of Oz</a></li>
+          </ul>
+      </div>
 <div class="chart">
 </div>
 
@@ -208,3 +222,4 @@ var graph = d3.csv(csvpath, function(data) {
 });
 }
 </script>
+<center><iframe width="560" height="315" src="https://www.youtube.com/embed/OiTiKOy59o4" frameborder="0" allowfullscreen></iframe></center>

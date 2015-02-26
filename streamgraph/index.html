@@ -67,14 +67,14 @@ button {
 
 <script>
 
-chart("data/data_hp1.csv", "blue", "Gravity");
+chart("data/data_hp1.csv", "orange", "Gravity");
 
 var datearray = [];
 var colorrange = [];
 
 var check = 1;
 
-function chart(csvpath, color, book_name) {
+function chart(csvpath, color) {
 
 if (color == "blue") {
   colorrange = ["#800F13", "#9c1316", "#cccccc", "#439231", "#29591e" ];
@@ -83,7 +83,7 @@ else if (color == "pink") {
   colorrange = ["#980043", "#DD1C77", "#DF65B0", "#C994C7", "#D4B9DA", "#F1EEF6"];
 }
 else if (color == "orange") {
-  colorrange = ["#B30000", "#E34A33", "#FC8D59", "#FDBB84", "#FDD49E", "#FEF0D9"];
+  colorrange = ["#ffe7db", "#B30000", "#E34A33", "#027837", "#02652e", "#FEF0D9"];
 }
 strokecolor = colorrange[0];
 
@@ -237,7 +237,7 @@ var graph = d3.csv(csvpath, function(data) {
           .style("text-decoration", "underline")  
           .style("margin-bottom", 50)  
           .style("font-family", "Open Sans Condensed")
-          .text(book_name);
+          //.text(book_name);
 /*
   var legend = svg.append("g")
                 .attr("class","legend")
@@ -292,7 +292,7 @@ var graph = d3.csv(csvpath, function(data) {
       pro = d.values[mousedate].value;
       chap = d.values[mousedate].date;
       chap = chap.getSeconds();
-      chapter_name = hp_hash[book_name];
+    //  chapter_name = hp_hash[book_name];
       console.log(chapter_name);
       chapter_name = chapter_name[chap-1];
       //console.log(d.values[mousedate]);
@@ -300,7 +300,7 @@ var graph = d3.csv(csvpath, function(data) {
         chapter_name = book_name;
 
     
-      console.log(summary[book_name][chap]);
+      //console.log(summary[book_name][chap]);
 
 
       d3.select(this)

@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
+<head>
+    <meta charset="utf-8">
+    <title>Streamgraph</title>
+</head>
+
 <style>
 
 body {
@@ -12,6 +16,15 @@ body {
 
 p {
   font: 12px helvetica;
+}
+
+
+.legend{
+    padding: 5px;
+    font: 10px sans-serif;
+    background: yellow;
+    box-shadow: 2px 2px 1px #888;
+    margin: 20px;
 }
 
 
@@ -30,64 +43,41 @@ button {
 
 </style>
 <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
 <body>
 <script src="http://d3js.org/d3.v2.js"></script>
-
+<div class="btn-group pull-right">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+               Movies<span class="caret"></span>
+        </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a class="m" value="hp1" href="#">Gravity</a></li>
+            <li><a class="m" value="hp2" href="#">Pulp Fiction</a></li>
+            <li><a class="m" value="hp3" href="#">The Wizard of Oz</a></li>
+          </ul>
+      </div>
 
 <div class="chart">
 </div>
 
 <script>
 
-chart("data.csv", "orange");
+chart("data/data_hp1.csv", "blue", "Gravity");
 
 var datearray = [];
 var colorrange = [];
-var book_name = "Harry Potter and the Deathly Hallows";
-var chapters = ['The Dark Lord Ascending',
-                            'In Memoriam',
-                            'The Dursleys Departing',
-                            'The Seven Potters',
-                            'Fallen Warrior',
-                            'The Ghoul in Pyjamas',
-                            'The Will of Albus Dumbledore',
-                            'The Wedding',
-                            'A Place to Hide',
-                            'Kreacher’s Tale',
-                            'The Bribe',
-                            'Magic is Might',
-                            'The Muggle-Born Registration Commission',
-                            'The Thief',
-                            'The Goblin’s Revenge',
-                            'Godric’s Hollow',
-                            'Bathilda’s Secret',
-                            'The Life and Lies of Albus Dumbledore',
-                            'The Silver Doe',
-                            'Xenophilius Lovegood',
-                            'The Tale of the Three Brothers',
-                            'The Deathly Hallows',
-                            'Malfoy Manor',
-                            'The Wandmaker',
-                            'Shell Cottage',
-                            'Gringotts',
-                            'The Final Hiding Place',
-                            'The Missing Mirror',
-                            'The Lost Diadem',
-                            'The Sacking of Severus Snape',
-                            'The Battle of Hogwarts',
-                            'The Elder Wand',
-                            'The Prince’s Tale',
-                            'The Forest Again',
-                            'King’s Cross',
-                            'The Flaw in the Plan'];
 
-var chapter_name = book_name;
 var check = 1;
 
-function chart(csvpath, color) {
+function chart(csvpath, color, book_name) {
 
 if (color == "blue") {
-  colorrange = ["#045A8D", "#2B8CBE", "#74A9CF", "#A6BDDB", "#D0D1E6", "#F1EEF6"];
+  colorrange = ["#800F13", "#9c1316", "#cccccc", "#439231", "#29591e" ];
 }
 else if (color == "pink") {
   colorrange = ["#980043", "#DD1C77", "#DF65B0", "#C994C7", "#D4B9DA", "#F1EEF6"];
@@ -99,9 +89,9 @@ strokecolor = colorrange[0];
 
 var format = d3.time.format("%S");
 
-var margin = {top: 20, right: 40, bottom: 30, left: 30};
+var margin = {top: 70, right: 100, bottom: 30, left: 100};
 var width = document.body.clientWidth - margin.left - margin.right;
-var height = 500 - margin.top - margin.bottom;
+var height = 450 - margin.top - margin.bottom;
 
 var tooltip = d3.select("body")
     .append("div")
@@ -109,8 +99,19 @@ var tooltip = d3.select("body")
     .style("position", "absolute")
     .style("z-index", "20")
     .style("visibility", "hidden")
-    .style("top", "30px")
-    .style("left", "55px");
+    .style("top", "70px")
+    .style("left", "110px");
+
+var s_r = d3.select("body")
+    .append("div")
+    .attr("class", "remove")
+    .style("position", "absolute")
+    .style("z-index", "20")
+    .style("width", width + "px")
+    .style("height", "50px")
+    .style("top", height + 125 + "px")
+    .style("left", "110px")
+    //.text("SUMMARY:");
 
 var x = d3.time.scale()
     .range([0, width]);
@@ -135,7 +136,7 @@ var yAxisr = d3.svg.axis()
 var stack = d3.layout.stack()
     .offset("silhouette")
     .values(function(d) { return d.values; })
-    .x(function(d) { return d.date; })
+    .x(function(d) { return d.timestamp; })
     .y(function(d) { return d.value; });
 
 var nest = d3.nest()
@@ -150,7 +151,7 @@ var area = d3.svg.area()
 var svg = d3.select(".chart").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
-  .append("g")
+    .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 var graph = d3.csv(csvpath, function(data) {
@@ -185,15 +186,56 @@ var graph = d3.csv(csvpath, function(data) {
   svg.append("g")
       .attr("class", "y axis")
       .call(yAxis.orient("left"));
+
+    svg.append("text")
+          .attr("class","title")
+          .attr("x", (width / 2) )             
+          .attr("y", -20)
+          .attr("text-anchor", "middle")  
+          .style("font-size", "10px") 
+          .style("text-decoration", "underline")  
+          .style("margin-bottom", 50)  
+          .style("font-family", "Open Sans Condensed")
+          //.text("LEGEND");
+/*
+    var legend = svg.append("g")
+        .attr("class","legend")
+        .attr("x", w - padding.right - 65)
+        .attr("y", 25)
+        .attr("height", 100)
+        .attr("width",100);
+
+
+    legend.selectAll("g").data(dataset)
+        .enter()
+        .append('g')
+                      .each(function(d,i){
+                        var g = d3.select(this);
+                        g.append("rect")
+                            .attr("x", w - padding.right - 65)
+                            .attr("y", i*25 + 10)
+                            .attr("width", 10)
+                            .attr("height",10)
+                            .style("fill",color_hash[String(i)][1]);
+
+                        g.append("text")
+                         .attr("x", w - padding.right - 50)
+                         .attr("y", i*25 + 20)
+                         .attr("height",30)
+                         .attr("width",100)
+                         .style("fill",color_hash[String(i)][1])
+                         .text(color_hash[String(i)][0]);
+                      });
+                    */
   
   svg.append("text")
-          .attr("class","title")
-          .attr("x", (width / 2))             
-          .attr("y", 20)
+          .attr("class","legend")
+          .attr("x", (width / 2) )             
+          .attr("y", -40)
           .attr("text-anchor", "middle")  
           .style("font-size", "30px") 
-          .style("text-decoration", "italic")  
-          .style("text-decoration", "bold")  
+          .style("text-decoration", "underline")  
+          .style("margin-bottom", 50)  
           .style("font-family", "Open Sans Condensed")
           .text(book_name);
 /*
@@ -250,25 +292,34 @@ var graph = d3.csv(csvpath, function(data) {
       pro = d.values[mousedate].value;
       chap = d.values[mousedate].date;
       chap = chap.getSeconds();
-      chapter_name = chapters[chap-1];
-      console.log(d.values[mousedate]);
+      chapter_name = hp_hash[book_name];
+      console.log(chapter_name);
+      chapter_name = chapter_name[chap-1];
+      //console.log(d.values[mousedate]);
       if(chapter_name == undefined)
-        chapter_name = "Harry Potter and the Deathly Hallows";
+        chapter_name = book_name;
+
+    
+      console.log(summary[book_name][chap]);
+
 
       d3.select(this)
       .classed("hover", true)
       .attr("stroke", strokecolor)
       .attr("stroke-width", "0.5px"), 
-      tooltip.html( "<h4>" + d.key + " - " + "Chapter " + chap + " : " + chapter_name +"<br>" + pro + " mentions" +  "</h4>" ).style("visibility", "visible").style("font-size", "18px").style("font-family", "Open Sans Condensed");
+      tooltip.html( "<h4>" + d.key + " - " + "Chapter " + chap + " : " + chapter_name +"<br>" + pro + " mentions" + "</h4>" ).style("visibility", "visible").style("font-size", "18px").style("font-family", "Open Sans Condensed").style("font-weight", "bold");
+      s_r.html( "<h3>" + "<strong>SUMMARY</strong>" + " - Chapter " + chap + " : " + chapter_name + "<br><h3>" + summary[book_name][chap-1] + "</h3>" ).style("visibility", "visible").style("font-size", "18px").style("font-family", "Open Sans Condensed");
       
     })
     .on("mouseout", function(d, i) {
+    /*
     if(check == 1)
     {
       d3.select("svg").remove();
       chart("data.csv", "blue");
       check = 2;
     }
+    */
      svg.selectAll(".layer")
       .transition()
       .duration(250)
@@ -277,14 +328,14 @@ var graph = d3.csv(csvpath, function(data) {
       .classed("hover", false)
       .attr("stroke-width", "0px"), tooltip.html( "<h3>" + d.key + " - " + chapter_name +  "<br>" + pro + "</h3>" ).style("visibility", "hidden");
   })
-    
+
   var vertical = d3.select(".chart")
         .append("div")
         .attr("class", "remove")
         .style("position", "absolute")
         .style("z-index", "19")
         .style("width", "1px")
-        .style("height", "380px")
+        .style("height", height)
         .style("top", "10px")
         .style("bottom", "30px")
         .style("left", "0px")
@@ -299,6 +350,27 @@ var graph = d3.csv(csvpath, function(data) {
          mousex = d3.mouse(this);
          mousex = mousex[0] + 5;
          vertical.style("left", mousex + "px")});
+
+   //On click, update with new data      
+      d3.selectAll(".m")
+        .on("click", function() {
+          var date = this.getAttribute("value");
+          console.log(date);
+       
+          //PUT CODE FOR CHANGING DATA AND COLORS
+          
+          d3.select("svg").remove();
+          s_r.remove();
+          vertical.style("visibility", "hidden");
+          csv_file = "data/character_mentions/data_"+date+".csv";
+          chart(csv_file, "blue", name);
+
+      });
+
+
 });
+
+
 }
-</script>
+</script><center><iframe width="560" height="315" src="https://www.youtube.com/embed/OiTiKOy59o4" frameborder="0" allowfullscreen></iframe></center>
+<script async src="highlight.min.js"></script>

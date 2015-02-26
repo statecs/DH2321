@@ -92,14 +92,24 @@ var y = d3.scale.linear()
 
 var z = d3.scale.ordinal()
     .range(colorrange);
+	
+var xTicks = d3.scale.linear()
+	.range([0, width])
+	.domain([0, 1]);
+	
+var yTicks = d3.scale.linear()
+	.range([height-10, 0])
+	.domain([-1, 1]);
 
+var formatPercent = d3.format(".0%");
+	
 var xAxis = d3.svg.axis()
-    .scale(x)
+    .scale(xTicks)
     .orient("bottom")
-    .ticksFormat(formatPercent);
+    .tickFormat(formatPercent);
 
 var yAxis = d3.svg.axis()
-    .scale(y);
+    .scale(yTicks);
 
 var yAxisr = d3.svg.axis()
     .scale(y);

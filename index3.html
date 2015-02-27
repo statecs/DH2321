@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<title>The Wizard Of Oz</title>
 <style>
 
 body {
@@ -10,13 +11,15 @@ body {
 .chart { 
   background: #000000;
 }
-
+.axis text{
+  color:#fff;
+}
 p {
   font: 12px helvetica;
 }
-.axis path, .axis line {
+.axis path, .axis line{
   fill: none;
-  stroke: #000;
+  stroke: #ffffff;
   stroke-width: 2px;
   shape-rendering: crispEdges;
 }
@@ -35,8 +38,10 @@ button {
     <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    
-<div class="btn-group pull-right">
+
+
+<div class="btn-group pull-right">   
+
           <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                Movies<span class="caret"></span>
         </button>
@@ -158,11 +163,13 @@ var graph = d3.csv(csvpath, function(data) {
   svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
+      .style("color", "#fffff")
       .call(xAxis);
 
   svg.append("g")
       .attr("class", "y axis")
       .attr("transform", "translate(" + width + ", 0)")
+      .style("color", "#fffff")
       .call(yAxis.orient("right"));
 
   svg.append("g")
@@ -233,4 +240,4 @@ var graph = d3.csv(csvpath, function(data) {
 });
 }
 </script>
-<center style="background: #000000;"><iframe width="560" height="315" src="https://www.youtube.com/embed/OiTiKOy59o4" frameborder="0" allowfullscreen></iframe></center>
+<center style="background: #000000;"><iframe width="560" height="315" src="https://www.youtube.com/embed/H_3T4DGw10U" frameborder="0" allowfullscreen></iframe></center>

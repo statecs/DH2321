@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<title>Pulp Fiction</title>
 <style>
 
 body {
@@ -8,15 +7,17 @@ body {
 }
 
 .chart { 
-  background: #fff;
+  background: #000000;
 }
-
+.axis text{
+  color:#fff;
+}
 p {
   font: 12px helvetica;
 }
-.axis path, .axis line {
+.axis path, .axis line{
   fill: none;
-  stroke: #000;
+  stroke: #ffffff;
   stroke-width: 2px;
   shape-rendering: crispEdges;
 }
@@ -38,7 +39,8 @@ button {
     
 <div class="btn-group pull-right">
 
-<input type="checkbox" name="vehicle" value="Bike" onclick='window.location.assign("index2_black.html")'>Black<br>
+<input type="checkbox" name="vehicle" value="Bike" onclick='window.location.assign("index.html")'>White<br>
+
 
 
           <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -55,7 +57,7 @@ button {
 
 <script>
 
-chart("data2.csv", "orange");
+chart("data.csv", "orange");
 
 var datearray = [];
 var colorrange = [];
@@ -237,4 +239,4 @@ var graph = d3.csv(csvpath, function(data) {
 });
 }
 </script>
-<center><iframe width="420" height="315" src="https://www.youtube.com/embed/wZBfmBvvotE" frameborder="0" allowfullscreen></iframe></center>
+<center style="background: #000000;"><iframe width="560" height="315" src="https://www.youtube.com/embed/OiTiKOy59o4" frameborder="0" allowfullscreen></iframe></center>

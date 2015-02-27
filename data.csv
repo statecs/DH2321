@@ -1,25 +1,25 @@
-key,value,date
-E - Very Sad,0.1319,01/08/13
-E - Very Sad,0.0286,01/09/13
-E - Very Sad,0.0286,01/10/13
-E - Very Sad,0.0286,01/11/13
-E - Very Sad,0.0286,01/12/13
-E - Very Sad,0.0286,01/13/13
-E - Very Sad,0.0286,01/14/13
-E - Very Sad,0.0286,01/15/13
-E - Very Sad,0.0286,01/16/13
-E - Very Sad,0.0286,01/17/13
-E - Very Sad,0.0286,01/18/13
-E - Very Sad,0.0286,01/19/13
-E - Very Sad,0.0286,01/20/13
-E - Very Sad,0.0286,01/21/13
-E - Very Sad,0.0286,01/22/13
-E - Very Sad,0.0286,01/23/13
-E - Very Sad,0.0286,01/24/13
-E - Very Sad,0.0286,01/25/13
-E - Very Sad,0.0286,01/26/13
-E - Very Sad,0.0286,01/27/13
-E - Very Sad,0.0286,01/28/13
+key,value,date, sentence
+E - Very Sad,0.1319,01/08/13, Please verify that the P1 ATA removal...
+E - Very Sad,0.0286,01/09/13, ...on replacement cap part 1 and 2 are complete.
+E - Very Sad,0.0286,01/10/13, WOMAN [OVER RADIO]: DMA M1, M2, M3 and M4 are complete.
+E - Very Sad,0.0286,01/11/13, CONTROL: Okay.
+E - Very Sad,0.0286,01/12/13, Copy that, Explorer.
+E - Very Sad,0.0286,01/13/13, Dr. Stone, Houston.
+E - Very Sad,0.0286,01/14/13, Medical is concerned about your ECG readings.
+E - Very Sad,0.0286,01/15/13, STONE [OVER RADIO]: I'm fine, Houston.
+E - Very Sad,0.0286,01/16/13, CONTROL: Well, Medical doesn't agree, doc.
+E - Very Sad,0.0286,01/17/13, Are you feeling nauseous?
+E - Very Sad,0.0286,01/18/13, STONE: Not any more than usual, Houston.
+E - Very Sad,0.0286,01/19/13, Diagnostics are green.
+E - Very Sad,0.0286,01/20/13, Link to communications card ready for data reception.
+E - Very Sad,0.0286,01/21/13, If this works, when we touch down tomorrow, I'm buying all you guys a round of drinks.
+E - Very Sad,0.0286,01/22/13, CONTROL: That's a date, doctor.
+E - Very Sad,0.0286,01/23/13, Just remember, Houston's partial to margaritas.
+E - Very Sad,0.0286,01/24/13, STONE: <i>Booting comms card now.
+E - Very Sad,0.0286,01/25/13, Please confirm link.
+E - Very Sad,0.0286,01/26/13, CONTROL: That's a negative, we're not seeing any data.
+E - Very Sad,0.0286,01/27/13, STONE: Stand by, Houston, I'm gonna reboot the comms card.
+E - Very Sad,0.0286,01/28/13, CONTROL: Standing by.
 D - Sad,0.1441,01/08/13
 D - Sad,0.1441,01/09/13
 D - Sad,0.1441,01/10/13

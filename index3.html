@@ -55,7 +55,7 @@ button {
 
 <script>
 
-chart("data.csv", "orange");
+chart("data3.csv", "orange");
 
 var datearray = [];
 var colorrange = [];
@@ -70,7 +70,7 @@ else if (color == "pink") {
   colorrange = ["#980043", "#DD1C77", "#DF65B0", "#C994C7", "#D4B9DA", "#F1EEF6"];
 }
 else if (color == "orange") {
-  colorrange = ["#ffe7db", "#B30000", "#E34A33", "#027837", "#02652e", "#FEF0D9"];
+  colorrange = ["#E34A33", "#B30000", "#ffe7db", "#027837", "#02652e", "#FEF0D9"];
 }
 strokecolor = colorrange[0];
 
@@ -239,4 +239,4 @@ var graph = d3.csv(csvpath, function(data) {
 });
 }
 </script>
-<center><iframe width="560" height="315" src="https://www.youtube.com/embed/H_3T4DGw10U" frameborder="0" allowfullscreen></iframe></center>
+<center style="background:#000000;"><iframe width="560" height="315" src="https://www.youtube.com/embed/H_3T4DGw10U" frameborder="0" allowfullscreen></iframe></center>

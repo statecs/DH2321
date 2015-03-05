@@ -1,4 +1,4 @@
-function chart(csvpath, color) {
+function chart(filePath, color) {
     $("#chart").empty();
     var datearray = [];
     var colorrange = [];
@@ -13,7 +13,7 @@ function chart(csvpath, color) {
     }
 
     strokecolor = colorrange[0];
-    var format = d3.time.format("%m/%d/%y");
+    var format = d3.time.format("%I:%M:%S,%L");
     var margin = {top: 20, right: 40, bottom: 30, left: 30};
     var width = document.body.clientWidth - margin.left - margin.right;
     var height = 400 - margin.top - margin.bottom;
@@ -63,9 +63,9 @@ function chart(csvpath, color) {
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    var graph = d3.csv(csvpath, function(data) {
+    var graph = d3.csv(filePath, function(data) {
         data.forEach(function(d) {
-            d.date = format.parse(d.date);
+            d.date = format.parse(d.timestamp.split(" --> ")[0]);
             d.value = +d.value;
         });
         var layers = stack(nest.entries(data));
@@ -75,7 +75,7 @@ function chart(csvpath, color) {
             .data(layers)
             .enter().append("path")
             .attr("class", "layer")
-            .attr("d", function(d) { return area(d.values); })
+            .attr("d", function(d) {return area(d.values); })
             .style("fill", function(d, i) { return z(i); });
         svg.append("g")
             .attr("class", "x axis")
@@ -83,11 +83,11 @@ function chart(csvpath, color) {
             .call(xAxis);
         svg.append("g")
             .attr("class", "y axis")
-            .attr("transform", "translate(" + width + ", 0)");
-            // .call(yAxis.orient("right"));
+            .attr("transform", "translate(" + width + ", 0)")
+            .call(yAxis.orient("right"));
         svg.append("g")
-                .attr("class", "y axis");
-                // .call(yAxis.orient("left"));
+                .attr("class", "y axis")
+                .call(yAxis.orient("left"));
         svg.selectAll(".layer")
             .attr("opacity", 1)
             .on("mouseover", function(d, i) {
@@ -124,7 +124,7 @@ function chart(csvpath, color) {
                     .classed("hover", false)
                     .attr("stroke-width", "0px"), tooltip.html( "<p>" + d.key + "<br>" + pro + "<br/>"+set+"</p>" ).style("visibility", "hidden");
             });
-        var vertical = d3.select(".chart")
+        var vertical = d3.select("#chart")
             .append("div")
             .attr("class", "remove")
             .style("position", "absolute")
@@ -135,7 +135,7 @@ function chart(csvpath, color) {
             .style("bottom", "30px")
             .style("left", "0px")
             .style("background", "#fff");
-        d3.select(".chart")
+        d3.select("#chart")
             .on("mousemove", function(){  
                 mousex = d3.mouse(this);
                 mousex = mousex[0] + 5;

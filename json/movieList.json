@@ -1,0 +1,20 @@
+{
+	"Gravity" : {
+		"id" : "1",
+		"file" : "data.csv",
+		"color" : "orange",
+		"video" : "https://www.youtube.com/embed/OiTiKOy59o4"
+	},
+	"Pulp Fiction" : {
+		"id" : "2",
+		"file" : "data2.csv",
+		"color" : "orange",
+		"video" : "https://www.youtube.com/embed/wZBfmBvvotE"
+	},
+	"The Wizard of Oz" : {
+		"id" : "3",
+		"file" : "data3.csv",
+		"color" : "orange",
+		"video" : "https://www.youtube.com/embed/H_3T4DGw10U"
+	}
+}

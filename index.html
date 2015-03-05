@@ -13,7 +13,7 @@
             body {
                 font: 10px sans-serif;
             }
-            .chart { 
+            #chart { 
                 background: #fff;
             }
             p {
@@ -33,23 +33,34 @@
         </style>
     </head>
     <body>
-        <div class="btn-group pull-right">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                Movies<span class="caret"></span>
-            </button>
-        <ul class="dropdown-menu" role="menu">
-            <li><a class="m" value="hp1" href="index.html">Gravity</a></li>
-            <li><a class="m" value="hp2" href="index2.html">Pulp Fiction</a></li>
-            <li><a class="m" value="hp3" href="index3.html">The Wizard of Oz</a></li>
-        </ul>
-    </div>
-    <div class="chart">
-        <script type="text/javascript">
-            chart("data/data.csv", "orange");
-        </script>
-    </div>
-    <center>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/OiTiKOy59o4" frameborder="0" allowfullscreen></iframe>
-    </center>
+        <div class="pull-right">
+            <select class="form-control" id="movie-list">
+            </select>
+        </div>
+        <div id="chart">
+            <script type="text/javascript">
+                chart("data/data.csv", "orange");
+            </script>
+        </div>
+        <center>
+            <iframe id="movie-video" width="560" height="315" src="https://www.youtube.com/embed/OiTiKOy59o4" frameborder="0" allowfullscreen></iframe>
+        </center>
     </body>
+    <script type="text/javascript">
+        $.getJSON("json/movieList.json", function (json) {
+            selector = $("#movie-list");
+            for(var key in json){
+                if(json.hasOwnProperty(key)){
+                    var movie =json[key];
+                    selector.append("<option value="+movie["file"]+"-"+movie["color"]+"-"+movie["video"]+">"+key+"</option>");
+                }
+            }
+        })
+        $("#movie-list").on('change', function(){
+            var newMovie = $(this).val().split("-");
+            chart("data/"+newMovie[0], newMovie[1]);
+            $("#movie-video").attr("src", newMovie[2]);
+        });
+
+    </script>
 </html>

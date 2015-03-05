@@ -1,4 +1,5 @@
 function chart(csvpath, color) {
+    $("#chart").empty();
     var datearray = [];
     var colorrange = [];
     if (color == "blue") {
@@ -57,7 +58,7 @@ function chart(csvpath, color) {
     .x(function(d) { return x(d.date); })
     .y0(function(d) { return y(d.y0); })
     .y1(function(d) { return y(d.y0 + d.y); });
-    var svg = d3.select(".chart").append("svg")
+    var svg = d3.select("#chart").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")

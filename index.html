@@ -30,9 +30,49 @@
                 right: 50px;
                 top: 10px;
             }
+			
+			
         </style>
     </head>
     <body>
+		<div>
+		<!-- HTML for SEARCH BAR -->
+		Search<input type="text"  id="search" onkeyup="searchstudent()"/>
+		<br />
+
+		<select name="lineList" id="lineList"</select>
+
+		
+		<script type="text/javascript">
+			var jsonFile;
+			 $.getJSON("json/Pulp_Fiction.json",{}, function(response) {
+			    jsonFile = response;
+				console.log(jsonFile); 
+				selector = $("#lineList");
+				for(var key in jsonFile){
+                if(jsonFile.hasOwnProperty(key)){
+                    var line = jsonFile[key];
+                    selector.append("<option value="+line["timestamp"]+" - "+line["sentence"]+"</option>");
+                }
+            }
+		     });
+			 
+			function searchstudent(){
+             var searchvalue= document.getElementById('search').value;
+             var from_s = document.getElementById('lineList');
+             for (var i=0;i<from_s.options.length-1;i++) {
+                var st=from_s.options[i].text;
+                  if(st.search(searchvalue)>-1) {
+                  var temp  = from_s.options[i];
+                 from_s.add(temp, from_s.options[0]);
+                 }            
+             }
+          }
+			 
+
+		</script>
+		</div>
+		
         <div class="pull-right">
             <select class="form-control" id="movie-list">
             </select>

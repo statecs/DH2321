@@ -9,6 +9,7 @@
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
         <script src="js/streamgraph.js" type="text/javascript"></script>
+        <script src="js/progressBar.js" type="text/javascript"></script>
         <style>
             body {
                 font: 10px sans-serif;
@@ -47,7 +48,6 @@
 			var jsonFile;
 			 $.getJSON("json/Pulp_Fiction.json",{}, function(response) {
 			    jsonFile = response;
-				console.log(jsonFile); 
 				selector = $("#lineList");
 				for(var key in jsonFile){
                 if(jsonFile.hasOwnProperty(key)){
@@ -80,6 +80,14 @@
    
         <center>
             <iframe id="movie-video" width="560" height="315" src="https://www.youtube.com/embed/OiTiKOy59o4" frameborder="0" allowfullscreen></iframe>
+            <div id="progress-bar">
+                <script type="text/javascript">progressBar("data/Gravity.csv", "orange")</script>
+            </div>
+            <div id="chart"> 
+                <script type="text/javascript">
+                    chart("data/mock.csv", "orange");
+                </script>
+            </div>
         </center>
     </body>
     <script type="text/javascript">
@@ -99,10 +107,4 @@
         });
 
     </script>
-
-         <div id="chart">
-            <script type="text/javascript">
-                chart("data/Gravity.csv", "orange");
-            </script>
-        </div>
 </html>

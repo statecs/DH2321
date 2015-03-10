@@ -13,10 +13,11 @@ function chart(filePath, color) {
     }
 
     strokecolor = colorrange[0];
-    var format = d3.time.format("%I:%M:%S,%L");
+    var format = d3.time.format("%H:%M:%S,%L");
     var margin = {top: 20, right: 40, bottom: 30, left: 30};
-    var width = document.body.clientWidth - margin.left - margin.right;
-    var height = 400 - margin.top - margin.bottom;
+    var width = 1000;//document.body.clientWidth - margin.left - margin.right;
+    var height = 20; 
+    //- margin.top - margin.bottom;
 
     var zoom = d3.behavior.zoom()
     .scaleExtent([1, 10])
@@ -61,13 +62,13 @@ function chart(filePath, color) {
     var stack = d3.layout.stack()
         .offset("silhouette")
         .values(function(d) { return d.values; })
-        .x(function(d) { return d.date; })
+        .x(function(d) { return d.date[0]; })
         .y(function(d) { return d.value; });
     var nest = d3.nest()
         .key(function(d) { return d.key; });
     var area = d3.svg.area()
     .interpolate("cardinal")
-    .x(function(d) { return x(d.date); })
+    .x(function(d) { return x(d.date[0]); })
     .y0(function(d) { return y(d.y0); })
     .y1(function(d) { return y(d.y0 + d.y); });
 
@@ -81,11 +82,18 @@ function chart(filePath, color) {
 
     var graph = d3.csv(filePath, function(data) {
         data.forEach(function(d) {
-            d.date = format.parse(d.timestamp.split(" --> ")[0]);
+            var lower=format.parse(d.timestamp.split(" --> ")[0]);
+            //console.log(lower);
+            var upper=format.parse(d.timestamp.split(" --> ")[1]);
+            //console.log(upper);
+            d.date = [lower,upper];
+            // console.log(d.date);
+            // console.log(d.date[0]);   
             d.value = +d.value;
         });
         var layers = stack(nest.entries(data));
-        x.domain(d3.extent(data, function(d) { return d.date; }));
+        x.domain(d3.extent(data, function(d) { return d.date[1]; }));
+        console.log(x.domain());
         y.domain([0, d3.max(data, function(d) { return d.y0 + d.y; })]);
 
         svg.selectAll(".layer")
@@ -118,16 +126,27 @@ function chart(filePath, color) {
             .on("mousemove", function(d, i) {
                 mousex = d3.mouse(this);
                 mousex = mousex[0];
+                console.log(mousex);
+
                 var invertedx = x.invert(mousex);
-                invertedx = invertedx.getMonth() + invertedx.getDate();
+                console.log(invertedx);
+
                 var selected = (d.values);
+                
                 for (var k = 0; k < selected.length; k++) {
-                    datearray[k] = selected[k].date
-                    datearray[k] = datearray[k].getMonth() + datearray[k].getDate();
+
+                    if((invertedx >= selected[k].date[0])&&(invertedx <= selected[k].date[1])){
+                        pro = d.values[k].value;
+                        set = d.values[k].sentence;
+                    }
                 }
-                mousedate = datearray.indexOf(invertedx);
-                pro = d.values[mousedate].value;
-                set = d.values[mousedate].sentence;
+
+                //console.log(datearray[9]);
+                //mousedate = datearray.indexOf(invertedx);
+                // console.log(mousedate);
+
+                // pro = d.values[mousedate].value;
+                // set = d.values[mousedate].sentence;
                 d3.select(this)
                     .classed("hover", true)
                     .attr("stroke", strokecolor)

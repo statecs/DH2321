@@ -41,33 +41,56 @@
 		Search<input type="text"  id="search" onkeyup="searchstudent()"/>
 		<br />
 
+		<select name="displayList" id="displayList" multiple="multiple" size="10"></select>
 		<select name="lineList" id="lineList"></select>
 
 		
 		<script type="text/javascript">
 			var jsonFile;
-			 $.getJSON("json/Pulp_Fiction.json",{}, function(response) {
+			var lineList = document.getElementById('lineList');
+			lineList.style.visibility = 'hidden';
+			var displayList = document.getElementById('displayList');
+			$.getJSON("json/Pulp_Fiction.json",{}, function(response) {
 			    jsonFile = response;
 				selector = $("#lineList");
 				for(var key in jsonFile){
-                if(jsonFile.hasOwnProperty(key)){
-                    var line = jsonFile[key];
-                    selector.append("<option value="+line["timestamp"]+" - "+line["sentence"]+"</option>");
-                }
-            }
-		     });
+					if(jsonFile.hasOwnProperty(key)){
+						var line = jsonFile[key];
+						selector.append("<option value="+line["timestamp"]+" - "+line["sentence"]+"</option>");
+					}
+				}
+		    });
+			$.getJSON("json/Pulp_Fiction.json",{}, function(response) {
+			    jsonFile = response;
+				selector = $("#displayList");
+				for(var key in jsonFile){
+					if(jsonFile.hasOwnProperty(key)){
+						var line = jsonFile[key];
+						selector.append("<option value="+line["timestamp"]+" - "+line["sentence"]+"</option>");
+					}
+				}
+		    });
+			
 			 
 			function searchstudent(){
-             var searchvalue= document.getElementById('search').value;
-             var from_s = document.getElementById('lineList');
-             for (var i=0;i<from_s.options.length-1;i++) {
-                var st=from_s.options[i].text;
-                  if(st.search(searchvalue)>-1) {
-                  var temp  = from_s.options[i];
-                 from_s.add(temp, from_s.options[0]);
-                 }            
-             }
-          }
+				var searchvalue= document.getElementById('search').value;
+				searchvalue = searchvalue.toLowerCase();
+				var from_s = document.getElementById('lineList');
+				var displayList = document.getElementById('displayList');
+				displayList.options.length = 0;
+				for (var i=0;i<from_s.options.length-1;i++) {
+					var str=from_s.options[i].text;
+					var st = str.toLowerCase();
+					if(st.search(searchvalue)>-1) {
+						var val = from_s.options[i].value;
+						var newRow = new Option(str, val);
+						displayList.add(newRow);
+					}            
+				}
+				if (searchvalue.length > 0) {
+					$("#displayList").val($("#displayList option:first").val());
+				}
+			}
 			 
 
 		</script>

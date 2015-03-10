@@ -96,13 +96,13 @@ function progressBar(filePath, color) {
 
         svg.selectAll(".layer")
             .attr("opacity", 1)
-            .on("mouseover", function(d, i) {
-                svg.selectAll(".layer")
-                    .transition()
-                    .duration(250)
-                    .attr("opacity", function(d, j) {
-                        return j != i ? 0.6 : 1;
-                    })})
+            // .on("mouseover", function(d, i) {
+            //     svg.selectAll(".layer")
+            //         .transition()
+            //         .duration(250)
+            //         .attr("opacity", function(d, j) {
+            //             return j != i ? 0.6 : 1;
+            //         })})
             .on("mousemove", function(d, i) {
                 mousex = d3.mouse(this);
                 mousex = mousex[0];
@@ -111,7 +111,7 @@ function progressBar(filePath, color) {
                 var selected = (d.values);
                 d3.select(this)
                     .classed("hover", true)
-                    .attr("stroke", strokecolor)
+                    // .attr("stroke", strokecolor)
                     .attr("stroke-width", "0.5px"), tooltip.html("<p>"+invertedx+"</p>").style("visibility", "visible");
             })
             .on("mouseout", function(d, i) {

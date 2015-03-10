@@ -38,7 +38,7 @@
     <body>
 		<div>
 		<!-- HTML for SEARCH BAR -->
-		Search<input type="text"  id="search" onkeyup="searchstudent()"/>
+		Search<input type="text"  id="search" onkeyup="searchWord()"/>
 		<br />
 
 		<select name="displayList" id="displayList" multiple="multiple" size="10"></select>
@@ -50,29 +50,42 @@
 			var lineList = document.getElementById('lineList');
 			lineList.style.visibility = 'hidden';
 			var displayList = document.getElementById('displayList');
-			$.getJSON("json/Pulp_Fiction.json",{}, function(response) {
-			    jsonFile = response;
-				selector = $("#lineList");
-				for(var key in jsonFile){
-					if(jsonFile.hasOwnProperty(key)){
-						var line = jsonFile[key];
-						selector.append("<option value="+line["timestamp"]+" - "+line["sentence"]+"</option>");
-					}
-				}
-		    });
-			$.getJSON("json/Pulp_Fiction.json",{}, function(response) {
-			    jsonFile = response;
-				selector = $("#displayList");
-				for(var key in jsonFile){
-					if(jsonFile.hasOwnProperty(key)){
-						var line = jsonFile[key];
-						selector.append("<option value="+line["timestamp"]+" - "+line["sentence"]+"</option>");
-					}
-				}
-		    });
+			updateList();
 			
-			 
-			function searchstudent(){
+			
+			function updateList(movieTitle) {
+				displayList.options.length = 0;
+				lineList.options.length = 0;
+				if (movieTitle == null || movieTitle.length < 0) {
+					movieTitle = "json/Gravity.json";
+				}
+				else {
+					movieTitle = movieTitle.split(".")[0];
+					movieTitle = "json/" + movieTitle + ".json";
+				}
+				$.getJSON(movieTitle,{}, function(response) {
+					jsonFile = response;
+					selector = $("#lineList");
+					for(var key in jsonFile){
+						if(jsonFile.hasOwnProperty(key)){
+							var line = jsonFile[key];
+							selector.append("<option value="+line["timestamp"]+" - "+line["sentence"]+"</option>");
+						}
+					}
+				});
+				$.getJSON(movieTitle,{}, function(response) {
+					jsonFile = response;
+					selector = $("#displayList");
+					for(var key in jsonFile){
+						if(jsonFile.hasOwnProperty(key)){
+							var line = jsonFile[key];
+							selector.append("<option value="+line["timestamp"]+" - "+line["sentence"]+"</option>");
+						}
+					}
+				});
+			}
+			
+			function searchWord(){
 				var searchvalue= document.getElementById('search').value;
 				searchvalue = searchvalue.toLowerCase();
 				var from_s = document.getElementById('lineList');
@@ -127,6 +140,7 @@
             var newMovie = $(this).val().split("-");
             chart("data/"+newMovie[0], newMovie[1]);
             $("#movie-video").attr("src", newMovie[2]);
+			updateList(newMovie[0]);
         });
 
     </script>

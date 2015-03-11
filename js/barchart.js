@@ -17,23 +17,30 @@ var format = d3.time.format("%H:%M:%S,%L");
             d.value = +d.value;
         });
   
-  var m;
-  var layers = stack(nest.entries(data));
-    for(var i = 0; i < layers.length; i++){
-      keys = layers[i].values;
-      var newList = [];
-      m = keys.length
-      for(var j = 0; j < m; j++){
-        newList.push({"x": j, "y" : keys[j].value, "y0": 0});
+  var m = data.length / 5,
+  n = 5, // number of layers
+  layers = stack(nest.entries(data));
+  newLayers = [];
+  for(var i = 0; i < 5; i++) newLayers[i] = [];
+    var c = 0;
+  for(var i = 0; i < m; i++){
+    var max = 0, maxI;
+    for(var j = 0; j < n; j++){
+    keys = layers[j].values;
+      if (keys[i].value > max){
+        max = keys[i].value;
+        maxI = j;
       }
-      // newList = d3.range(n).map(function(){return newList;});
-      layers[i]=newList;
     }
+    newLayers[maxI].push({"x": c, "y" : layers[maxI].values[c].value, "y0": 0});//layers[maxI].values[c].y0});
+    c++;
+    // newList = d3.range(n).map(function(){return newList;});
+    // layers[i]=newList;
+  }
 
      // layers = ));
-  var n = 5, // number of layers
-    yGroupMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y; }); }),
-    yStackMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); });
+    yGroupMax = d3.max(newLayers, function(layer) { return d3.max(layer, function(d) { return d.y; }); }),
+    yStackMax = d3.max(newLayers, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); });
 
 var margin = {top: 40, right: 10, bottom: 20, left: 10},
     width = document.body.clientWidth - margin.left - margin.right,
@@ -67,7 +74,7 @@ var svg = d3.select("#bar-chart").append("svg")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 var layer = svg.selectAll(".layer")
-    .data(layers)
+    .data(newLayers)
   .enter().append("g")
     .attr("class", "layer")
     .style("fill", function(d, i) { return color(i); });
@@ -107,7 +114,7 @@ function transitionGrouped() {
 
   rect.transition()
       .duration(1)
-      .delay(function(d, i) { return i*10; })
+      .delay(function(d, i) { return i; })
       .attr("x", function(d, i, j) { return x(d.x) + x.rangeBand() / n * j; })
       .attr("width", x.rangeBand() / n)
     .transition()
@@ -120,7 +127,7 @@ function transitionStacked() {
 
   rect.transition()
       .duration(1)
-      .delay(function(d, i) { return i*10; })
+      .delay(function(d, i) { return i; })
       .attr("y", function(d) { return y(d.y0 + d.y); })
       .attr("height", function(d) { return y(d.y0) - y(d.y0 + d.y); })
     .transition()

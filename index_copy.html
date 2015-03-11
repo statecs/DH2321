@@ -144,16 +144,48 @@
             lineList.style.visibility = 'hidden';
             var displayList = document.getElementById('displayList');
             updateList();
+			var vid = document.getElementById("ourvideo");
 			
 			// Code to jump to time-offset in video when selected
 			$("#displayList").on('change', function(){
 				var timestamp = $(this).val().toString().split(":");
 				var offset = parseInt((timestamp[0] * 3600)) + parseInt((timestamp[1] * 60)) + parseInt((timestamp[2]));
-				var vid = document.getElementById("ourvideo");
 				vid.currentTime = offset;
 			});
+			
+			// Code that automatically highlights option in searchbar based on timestamp
+			vid.addEventListener('timeupdate',function(event){
+				var currentTime = vid.currentTime;
+				var hour = Math.floor(currentTime/3600);
+				currentTime = currentTime % 3600;
+				var minute = Math.floor(currentTime / 60);
+				currentTime = currentTime % 60;
+				var second = Math.floor(currentTime);
+				var value = padZero(hour) + ":" + padZero(minute) + ":" + padZero(second);
+				//console.log(value);
+				setOption(value);
+			},false);
+			
+			
+			// Helper code to pad zeroes
+			function padZero(number) {
+				if (number<=10) { number = ("0"+number).slice(-2); }
+				return number;
+			}
+			
+			// Helper code to select an option
+            function setOption(value) {
+				var options = displayList.options;
+				for (var i = 0, optionsLength = options.length; i < optionsLength; i++) {
+					if (options[i].value == value) {
+						displayList.selectedIndex = i;
+						return true;
+					}
+				}
+				return false;
+			}
             
-            
+			// Code that updates list of lines when movie is changed.
             function updateList(movieTitle) {
 				// Defensive code, loads default values
                 displayList.options.length = 0;
@@ -214,7 +246,7 @@
                     }            
                 }
 				
-				// Reload all lines in display list with lines in base list
+				// Automatically highlight first line as default
                 if (searchvalue.length > 0) {
                     $("#displayList").val($("#displayList option:first").val());
                 }

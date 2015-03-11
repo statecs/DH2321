@@ -1,7 +1,37 @@
-var n = 4, // number of layers
-    m = 100, // number of samples per layer
-    stack = d3.layout.stack(),
-    layers = stack(d3.range(n).map(function() { return bumpLayer(m, .1); })),
+function barChart(filePath){
+
+
+var format = d3.time.format("%H:%M:%S,%L");
+    var colors = d3.scale.category20();
+    var nest = d3.nest().key(function(d) { return d.key; });
+    var stack = d3.layout.stack()
+        // .offset("silhouette")
+        .values(function(d) { return d.values; })
+        .x(function(d) { return d.value; })
+        .y(function(d) { return d.number });
+
+    d3.csv(filePath, function(data) {
+        data.forEach(function(d) {
+            d.number = data.indexOf(d);
+            d.date = format.parse(d.timestamp.split(" --> ")[0]);
+            d.value = +d.value;
+        });
+  
+  var m;
+  var layers = stack(nest.entries(data));
+    for(var i = 0; i < layers.length; i++){
+      keys = layers[i].values;
+      var newList = [];
+      m = keys.length
+      for(var j = 0; j < m; j++){
+        newList.push({"x": j, "y" : keys[j].value, "y0": 0});
+      }
+      // newList = d3.range(n).map(function(){return newList;});
+      layers[i]=newList;
+    }
+
+     // layers = ));
+  var n = 5, // number of layers
     yGroupMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y; }); }),
     yStackMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); });
 
@@ -33,7 +63,7 @@ var xAxis = d3.svg.axis()
 var svg = d3.select("#bar-chart").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
-  .append("g")
+    .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 var layer = svg.selectAll(".layer")
@@ -62,11 +92,11 @@ svg.append("g")
 
 d3.selectAll("input").on("change", change);
 
-var timeout = setTimeout(function() {
-  d3.select("input[value=\"grouped\"]").property("checked", true).each(change);
-}, 2000);
 
 function change() {
+  var timeout = setTimeout(function() {
+  d3.select("input[value=\"grouped\"]").property("checked", true).each(change);
+}, 2000);
   clearTimeout(timeout);
   if (this.value === "grouped") transitionGrouped();
   else transitionStacked();
@@ -76,8 +106,8 @@ function transitionGrouped() {
   y.domain([0, yGroupMax]);
 
   rect.transition()
-      .duration(500)
-      .delay(function(d, i) { return i * 10; })
+      .duration(1)
+      .delay(function(d, i) { return i*10; })
       .attr("x", function(d, i, j) { return x(d.x) + x.rangeBand() / n * j; })
       .attr("width", x.rangeBand() / n)
     .transition()
@@ -89,8 +119,8 @@ function transitionStacked() {
   y.domain([0, yStackMax]);
 
   rect.transition()
-      .duration(500)
-      .delay(function(d, i) { return i * 10; })
+      .duration(1)
+      .delay(function(d, i) { return i*10; })
       .attr("y", function(d) { return y(d.y0 + d.y); })
       .attr("height", function(d) { return y(d.y0) - y(d.y0 + d.y); })
     .transition()
@@ -115,4 +145,6 @@ function bumpLayer(n, o) {
   for (i = 0; i < n; ++i) a[i] = o + o * Math.random();
   for (i = 0; i < 5; ++i) bump(a);
   return a.map(function(d, i) { return {x: i, y: Math.max(0, d)}; });
+}
+});
 }

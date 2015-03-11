@@ -43,7 +43,7 @@ function stackedArea(filePath){
         chart = nv.models.stackedAreaChart()
             .useInteractiveGuideline(true)
             .x(function(d) { return d.date })
-            .y(function(d) { return d.y })
+            .y(function(d) { return d.y *100})
             .controlLabels({stacked: "Stacked"})
             .color(['#B30000', '#E34A33', '#ffe7db', '#027837','#02652e'])
             .duration(300);

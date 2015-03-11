@@ -13,6 +13,8 @@
         <script src="js/progressBar.js" type="text/javascript"></script>
         <link href="build/nv.d3.css" rel="stylesheet" type="text/css">
         <script src="build/nv.d3.js"></script>
+        <script src="js/popcorn-1.2.js"></script>
+        <script type="text/javascript" src="js/popcorn.js"></script>
 
         <style>
             body {
@@ -65,7 +67,13 @@
                
                   margin: -20px 10px 0px 10px;
             }
-
+            #ourvideo{
+                width:40%;
+            }
+             p#subtitle-50{
+                  margin-left: 455px;
+                    font-size: 15px;
+            }
 
 
 
@@ -111,7 +119,12 @@
                 </div>
 
 		 <div><select name="displayList" id="displayList" multiple="multiple" size="10"></select>
- <iframe id="movie-video" width="460" height="215" src="https://www.youtube.com/embed/OiTiKOy59o4" frameborder="0" allowfullscreen></iframe>
+ <!--<iframe id="movie-video" width="460" height="215" src="https://www.youtube.com/embed/OiTiKOy59o4" frameborder="0" allowfullscreen></iframe>-->
+
+   <video id="ourvideo" poster="avatar.png" autobuffer controls>
+                <source src="http://statecs.com/DH2321/project4/avatar.ogv">
+            </video>
+            <div id="infoWrapper"></div>
 
 
                         
@@ -204,7 +217,7 @@
             </div>-->
             
                 <svg id="chart1"></svg>
-                
+
             <div id="chart"> 
                 <script type="text/javascript">
                     chart("data/mock.csv", "orange");

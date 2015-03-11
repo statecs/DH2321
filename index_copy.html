@@ -137,14 +137,25 @@
 	
 
 		<script type="text/javascript">
+			
+			// Initialize lists of lines
 			var jsonFile;
 			var lineList = document.getElementById('lineList');
             lineList.style.visibility = 'hidden';
             var displayList = document.getElementById('displayList');
             updateList();
+			
+			// Code to jump to time-offset in video when selected
+			$("#displayList").on('change', function(){
+				var timestamp = $(this).val().toString().split(":");
+				var offset = parseInt((timestamp[0] * 3600)) + parseInt((timestamp[1] * 60)) + parseInt((timestamp[2]));
+				var vid = document.getElementById("ourvideo");
+				vid.currentTime = offset;
+			});
             
             
             function updateList(movieTitle) {
+				// Defensive code, loads default values
                 displayList.options.length = 0;
                 lineList.options.length = 0;
                 if (movieTitle == null || movieTitle.length < 0) {
@@ -156,6 +167,8 @@
                     movieTitle = "json/" + movieTitle + ".json";
 
                 }
+				
+				// Populates dummy/base with lines from JSON file (hidden to user)
                 $.getJSON(movieTitle,{}, function(response) {
                     jsonFile = response;
                     selector = $("#lineList");
@@ -167,6 +180,8 @@
                         }
                     }
                 });
+				
+				// Populates actual list that is displayed to user
                 $.getJSON(movieTitle,{}, function(response) {
                     jsonFile = response;
                     selector = $("#displayList");
@@ -183,7 +198,7 @@
 
 			 
          function searchWord(){
-
+				// Searches for words in base list, and updates display list with hits.
                 var searchvalue= document.getElementById('search').value;
                 searchvalue = searchvalue.toLowerCase();
                 var from_s = document.getElementById('lineList');
@@ -198,6 +213,8 @@
                         displayList.add(newRow);
                     }            
                 }
+				
+				// Reload all lines in display list with lines in base list
                 if (searchvalue.length > 0) {
                     $("#displayList").val($("#displayList option:first").val());
                 }

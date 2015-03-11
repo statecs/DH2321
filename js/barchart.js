@@ -1,6 +1,5 @@
 function barChart(filePath){
-
-
+$("#bar-chart").empty();
 var format = d3.time.format("%H:%M:%S,%L");
     var colors = d3.scale.category20();
     var nest = d3.nest().key(function(d) { return d.key; });
@@ -48,7 +47,7 @@ var margin = {top: 40, right: 10, bottom: 20, left: 10},
 
 var x = d3.scale.ordinal()
     .domain(d3.range(m))
-    .rangeRoundBands([0, width], .08);
+    .rangeBands([0, width]);
 
 var y = d3.scale.linear()
     .domain([0, yStackMax])
@@ -103,7 +102,7 @@ d3.selectAll("input").on("change", change);
 function change() {
   var timeout = setTimeout(function() {
   d3.select("input[value=\"grouped\"]").property("checked", true).each(change);
-}, 2000);
+  }, 2000);
   clearTimeout(timeout);
   if (this.value === "grouped") transitionGrouped();
   else transitionStacked();
@@ -115,7 +114,7 @@ function transitionGrouped() {
   rect.transition()
       .duration(1)
       .delay(function(d, i) { return i; })
-      .attr("x", function(d, i, j) { return x(d.x) + x.rangeBand() / n * j; })
+      .attr("x", function(d, i, j) { return x(d.x) + (x.rangeBand() + 1) / n * j; })
       .attr("width", x.rangeBand() / n)
     .transition()
       .attr("y", function(d) { return y(d.y); })

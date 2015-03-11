@@ -290,7 +290,8 @@
         })
         $("#movie-list").on('change', function(){
             var newMovie = $(this).val().split("-");
-            chart("data/"+newMovie[0], newMovie[1]);
+            stackedArea("data/"+newMovie[0]);
+            barChart("data/"+newMovie[0]);
             $("#movie-video").attr("src", newMovie[2]);
             updateList(newMovie[0]);
         });
@@ -302,6 +303,6 @@
         <script src="js/barchart.js" type="text/javascript"></script>
         <script type="text/javascript">
             stackedArea("data/Gravity.csv");
-            barChart("data/Gravity.csv");
+            barChart("data/Pulp_Fiction.csv");
         </script>
 </html>

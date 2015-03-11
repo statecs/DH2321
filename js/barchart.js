@@ -7,7 +7,7 @@ var n = 4, // number of layers
 
 var margin = {top: 40, right: 10, bottom: 20, left: 10},
     width = document.body.clientWidth - margin.left - margin.right,
-    height = 100 - margin.top - margin.bottom;
+    height = 150 - margin.top - margin.bottom;
 
 var x = d3.scale.ordinal()
     .domain(d3.range(m))

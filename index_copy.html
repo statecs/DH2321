@@ -156,13 +156,14 @@
                     movieTitle = "json/" + movieTitle + ".json";
 
                 }
-                            $.getJSON(movieTitle,{}, function(response) {
+                $.getJSON(movieTitle,{}, function(response) {
                     jsonFile = response;
                     selector = $("#lineList");
                     for(var key in jsonFile){
                         if(jsonFile.hasOwnProperty(key)){
                             var line = jsonFile[key];
-                            selector.append("<option value="+line["timestamp"]+" - "+line["sentence"]+"</option>");
+							var timeVal = line["timestamp"].substring(0,line["timestamp"].indexOf(","));
+                            selector.append("<option value="+timeVal+">"+timeVal + " - " + line["sentence"]+"</option>");
                         }
                     }
                 });
@@ -172,7 +173,8 @@
                     for(var key in jsonFile){
                         if(jsonFile.hasOwnProperty(key)){
                             var line = jsonFile[key];
-                            selector.append("<option value="+line["timestamp"]+" - "+line["sentence"]+"</option>");
+							var timeVal = line["timestamp"].substring(0,line["timestamp"].indexOf(","));
+                            selector.append("<option value="+timeVal+">"+timeVal + " - " + line["sentence"]+"</option>");
                         }
                     }
                 });

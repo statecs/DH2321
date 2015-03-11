@@ -71,6 +71,7 @@
                     for(var key in jsonFile){
                         if(jsonFile.hasOwnProperty(key)){
                             var line = jsonFile[key];
+							//var time = line["timestamp"].split(",")[0];
                             selector.append("<option value="+line["timestamp"]+" - "+line["sentence"]+"</option>");
                         }
                     }

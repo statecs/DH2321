@@ -36,8 +36,8 @@
                 top: 10px;
             }
             select {
- outline: none;
-}
+                outline: none;
+            }
 			.cs-navbar {
                 background-color: #ffb574;
                 border-bottom:0;

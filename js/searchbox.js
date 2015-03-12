@@ -25,7 +25,6 @@ vid.addEventListener('timeupdate',function(event){
 	currentTime = currentTime % 60;
 	var second = Math.floor(currentTime);
 	var value = padZero(hour) + ":" + padZero(minute) + ":" + padZero(second);
-	//console.log(value);
 	var lineIndex = setOption(value);
 	if (lineIndex != false) {
 		if (currentLine != lineIndex) {
@@ -37,10 +36,9 @@ vid.addEventListener('timeupdate',function(event){
 
 
 function barClicked(lineIndex) {
-	console.log(lineIndex);
 	var optionSelected = displayList[lineIndex];
 	displayList.selectedIndex = lineIndex;
-	var timestamp = optionSelected.val().toString().split(":");
+	var timestamp = optionSelected.value.toString().split(":");
 	var offset = parseInt((timestamp[0] * 3600)) + parseInt((timestamp[1] * 60)) + parseInt((timestamp[2]));
 	vid.currentTime = offset;
 }

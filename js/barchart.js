@@ -1,4 +1,3 @@
-var currentBand;
 function barChart(filePath){
 $("#bar-chart").empty();
 // $("#chart1").empty();
@@ -6,7 +5,6 @@ var format = d3.time.format("%H:%M:%S,%L");
     var colors = d3.scale.category20();
     var nest = d3.nest().key(function(d) { return d.key; });
     var stack = d3.layout.stack()
-        // .offset("silhouette")
         .values(function(d) { return d.values; })
         .x(function(d) { return d.value; })
         .y(function(d) { return d.number });
@@ -90,11 +88,9 @@ var layer = svg.selectAll(".layer")
       var clicked = x.domain()[j];
       stackedArea(filePath, clicked);
 	  barClicked(clicked);
-	  console.log(clicked);
     });
 
 
-console.log(x.rangeBand())
 var rect = layer.selectAll("rect")
     .data(function(d) { return d; })
   .enter().append("rect")
@@ -193,7 +189,6 @@ function bumpLayer(n, o) {
   for (i = 0; i < 5; ++i) bump(a);
   return a.map(function(d, i) { return {x: i, y: Math.max(0, d)}; });
 }
-currentBand = x.rangeBand();
 });
 
 

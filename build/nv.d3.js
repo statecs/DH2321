@@ -10868,7 +10868,7 @@ nv.models.stackedAreaChart = function() {
         , noData = 'No Data Available.'
         , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'stateChange', 'changeState','renderEnd')
         , controlWidth = 250
-        , cData = ['Stacked','Stream','Expanded']
+        , cData = ['Stacked','Expanded']
         , controlLabels = {}
         , duration = 250
         ;

@@ -1,5 +1,6 @@
 function barChart(filePath){
 $("#bar-chart").empty();
+$("#chart1").empty();
 var format = d3.time.format("%H:%M:%S,%L");
     var colors = d3.scale.category20();
     var nest = d3.nest().key(function(d) { return d.key; });
@@ -76,7 +77,18 @@ var layer = svg.selectAll(".layer")
     .data(newLayers)
   .enter().append("g")
     .attr("class", "layer")
-    .style("fill", function(d, i) { return color(i); });
+    .style("fill", function(d, i) { return color(i); })
+    .on("click", function(d) {
+      var xPos = d3.mouse(this)[0];
+      console.log("Clicked at " + xPos);
+      var leftEdges = x.range();
+      var width = x.rangeBand();
+      var j;
+      for(j=0; xPos > (leftEdges[j] + width); j++) {} //do nothing, just increment j until case fails
+      var clicked = x.domain()[j]
+      console.log(layers[0].values[clicked]);
+      stackedArea(filePath, clicked);
+    });
 
 var rect = layer.selectAll("rect")
     .data(function(d) { return d; })

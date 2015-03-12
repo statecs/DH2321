@@ -1,3 +1,4 @@
+var currentBand;
 function barChart(filePath){
 $("#bar-chart").empty();
 // $("#chart1").empty();
@@ -107,15 +108,16 @@ var brush = d3.svg.brush()
     .on("brushend", function(){
       var extent = brush.extent();
       if(extent[0] == extent[1]) {
-        stackedArea(filePath, Math.round(extent[0]/ x.rangeBand()));
-		barClicked(extent[0]);
+        var newExtent = Math.round(extent[0] / x.rangeBand());
+        stackedArea(filePath, newExtent);
+        barClicked(newExtent);
       } else {
         if(extent[1] - extent[0] > 100){
           d3.event.target.extent([extent[0],extent[0]+100]); d3.event.target(d3.select(this));
         }
-        extent = extent.map(function(e){ return Math.round(e / x.rangeBand());})
-        stackedArea(filePath, extent);
-		barClicked(Math.floor((extent[0] + extent[1]) / 2));
+        var newExtent = extent.map(function(e){ return Math.round(e / x.rangeBand());})
+        stackedArea(filePath, newExtent);
+    		barClicked(Math.floor((newExtent[0] + newExtent[1]) / 2));
       }
     });
 
@@ -191,6 +193,8 @@ function bumpLayer(n, o) {
   for (i = 0; i < 5; ++i) bump(a);
   return a.map(function(d, i) { return {x: i, y: Math.max(0, d)}; });
 }
-  
+currentBand = x.rangeBand();
 });
+
+
 }

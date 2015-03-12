@@ -2,16 +2,16 @@
 	"Gravity" : {
 		"file" : "Gravity.csv",
 		"color" : "orange",
-		"video" : "http://statecs.com/DH2321/project4/gravity.ogv"
+		"video" : "http://web.armada.nu/test/gravity.ogv"
 	},
 	"Pulp Fiction" : {
 		"file" : "Pulp_Fiction.csv",
 		"color" : "orange",
-		"video" : "http://statecs.com/DH2321/project4/gravity.ogv"
+		"video" : "http://web.armada.nu/test/pulp.mp4"
 	},
 	"The Wizard of Oz" : {
 		"file" : "The_Wizard_Of_Oz.csv",
 		"color" : "orange",
-		"video" : "http://statecs.com/DH2321/project4/gravity.ogv"
+		"video" : "http://web.armada.nu/test/gravity.ogv"
 	}
 }

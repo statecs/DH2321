@@ -60,7 +60,7 @@ function stackedArea(filePath, zoomRange){
             .x(function(d) { return d.date })
             .y(function(d) { return d.y *100})
             .controlLabels({stacked: "Stacked"})
-            .color(["#d53f3f", "#cf6a6a", "#ffffff", "#c1f68e", "#77cc25"])
+            .color(["#d53f3f", "#cf6a6a", "#e9ede6", "#c1f68e", "#77cc25"])
 
             .duration(300);
         var layers = stack(nest.entries(zoomedData));

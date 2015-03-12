@@ -9,11 +9,12 @@ var currentLine = 0;
 
 // Code to jump to time-offset in video when selected
 $("#displayList").on('change', function(){
+	var lineIndex = $(this).index;
+	stackedArea(FILEPATH, lineIndex);
 	var timestamp = $(this).val().toString().split(":");
 	var offset = parseInt((timestamp[0] * 3600)) + parseInt((timestamp[1] * 60)) + parseInt((timestamp[2]));
 	vid.currentTime = offset;
-	var lineIndex = $(this).index;
-	stackedArea(FILEPATH, lineIndex);
+	
 });
 
 // Code that automatically highlights option in searchbar based on timestamp

@@ -115,6 +115,7 @@ var brush = d3.svg.brush()
         }
         extent = extent.map(function(e){ return Math.round(e / x.rangeBand());})
         stackedArea(filePath, extent);
+		barClicked(Math.floor((extent[0] + extent[1]) / 2));
       }
     });
 

@@ -33,6 +33,21 @@ function stackedArea(filePath, zoomRange){
             zoomedData.push(data[i])
         }
 
+        var lastTimeStamp;
+        var lastValues = new Array(5);
+        for(var i = 0; i < zoomedData.length-5; i+=5){
+            if(lastTimeStamp == zoomedData[i].timestamp){
+                for(var j = i; j < i + 5; j ++){
+                    zoomedData[j].value = lastValues[j-i];
+                }
+            } else {
+                for(var j = i; j < i + 5; j ++){
+                    lastValues[j-i] = zoomedData[j].value;
+                }
+            }
+            lastTimeStamp = zoomedData[i].timestamp;
+        }
+
         chart = nv.models.stackedAreaChart()
             .useInteractiveGuideline(true)
             .x(function(d) { return d.date })

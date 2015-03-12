@@ -5,6 +5,7 @@ lineList.style.visibility = 'hidden';
 var displayList = document.getElementById('displayList');
 updateList();
 var vid = document.getElementById("ourvideo");
+var currentLine = 0;
 
 // Code to jump to time-offset in video when selected
 $("#displayList").on('change', function(){
@@ -26,7 +27,12 @@ vid.addEventListener('timeupdate',function(event){
 	var value = padZero(hour) + ":" + padZero(minute) + ":" + padZero(second);
 	//console.log(value);
 	var lineIndex = setOption(value);
-	stackedArea(FILEPATH, lineIndex);
+	if (lineIndex != false) {
+		if (currentLine != lineIndex) {
+			stackedArea(FILEPATH, lineIndex);
+			currentLine = lineIndex;
+		}
+	}
 },false);
 
 

@@ -35,8 +35,11 @@
                 right: 50px;
                 top: 10px;
             }
+            select {
+ outline: none;
+}
 			.cs-navbar {
-                background-color: #F3913B;
+                background-color: #ffb574;
                 border-bottom:0;
                 color: white;
             }
@@ -61,7 +64,7 @@
             option:focus,
             option:active,
             option:checked {
-                background: linear-gradient(#F3913B, #F3913B);
+                background: linear-gradient(#ffb574, #ffb574);
                 color:#fff;
                 outline: none;
             }

@@ -105,11 +105,15 @@ var brush = d3.svg.brush()
     .x(x)
     .on("brushend", function(){
       var extent = brush.extent();
-      if(extent[1] - extent[0] > 100){
-        d3.event.target.extent([extent[0],extent[0]+100]); d3.event.target(d3.select(this));
+      if(extent[0] == extent[1]) {
+        stackedArea(filePath, extent[0]);
+      } else {
+        if(extent[1] - extent[0] > 100){
+          d3.event.target.extent([extent[0],extent[0]+100]); d3.event.target(d3.select(this));
+        }
+        extent = extent.map(function(e){ return Math.round(e / x.rangeBand());})
+        stackedArea(filePath, extent);
       }
-      extent = extent.map(function(e){ return Math.round(e / x.rangeBand());})
-      stackedArea(filePath, extent);
     });
 
 rect.transition()

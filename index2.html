@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+        <!--<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>-->
+        <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+         <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+        <script src="js/streamgraph.js" type="text/javascript"></script>
+        <script src="js/progressBar.js" type="text/javascript"></script>
+        <link href="build/nv.d3.css" rel="stylesheet" type="text/css">
+        <script src="build/nv.d3.js"></script>
+        <script src="js/crossfilter.v1.min.js"></script>
+        <!--<script src="js/popcorn-1.2.js"></script>
+        <script type="text/javascript" src="js/popcorn.js"></script>-->
+
+        <style>
+            body {
+                font: 10px sans-serif;
+                margin-top:50px;
+            }
+            #chart { 
+                background: #fff;
+
+            }
+            #chart .remove {
+              position: relative !important;
+            }
+            #chart1{
+                margin-top:50px;
+                height: 450px;
+            }
+            p {
+                font: 12px helvetica;
+            }
+            .axis path, .axis line {
+                fill: none;
+                stroke: #000;
+                stroke-width: 2px;
+                shape-rendering: crispEdges;
+            }
+            #bar-chart .tick{
+                display:none;
+            }
+            button {
+                right: 50px;
+                top: 10px;
+            }
+			.cs-navbar {
+                background-color: #F3913B;
+                border-bottom:0;
+                color: white;
+            }
+            .cs-navbar .navbar-brand {
+                color: white;
+                font-size: 10px;
+            }
+            #displayList{
+                margin-top:10px;
+                border:0;
+                width:40%;
+                height:220px;
+                font-size: 12px;
+            }
+            .btn{
+               
+                  margin: -20px 10px 0px 10px;
+            }
+            #ourvideo{
+                width:40%;
+            }
+             p#subtitle-50{
+                  margin-left: 455px;
+                    font-size: 15px;
+            }
+            .axis text {
+  font: 10px sans-serif;
+}
+
+.brush rect.extent {
+  fill: steelblue;
+  fill-opacity: .125;
+}
+
+.brush .resize path {
+  fill: #eee;
+  stroke: #666;
+}
+
+#hour-chart {
+  width: 260px;
+}
+
+#delay-chart {
+  width: 230px;
+}
+
+#distance-chart {
+  width: 420px;
+}
+
+#date-chart {
+  width: 920px;
+}
+
+#flight-list {
+  min-height: 1024px;
+}
+
+#flight-list .date,
+#flight-list .day {
+  margin-bottom: .4em;
+}
+
+#flight-list .flight {
+  line-height: 1.5em;
+  background: #eee;
+  width: 640px;
+  margin-bottom: 1px;
+}
+
+#flight-list .time {
+  color: #999;
+}
+
+#flight-list .flight div {
+  display: inline-block;
+  width: 100px;
+}
+
+#flight-list div.distance,
+#flight-list div.delay {
+  width: 160px;
+  padding-right: 10px;
+  text-align: right;
+}
+
+#flight-list .early {
+  color: green;
+}
+
+aside {
+  position: absolute;
+  left: 740px;
+  font-size: smaller;
+  width: 220px;
+}
+
+
+
+
+			
+        </style>
+    </head>
+    <body>
+
+  <div class="navbar navbar-fixed-top navbar-inverse cs-navbar">
+    <div class="navbar-inner">
+      <div class="container">
+        <a href="#" class="navbar-brand cs-brand"><i class="icon-bar-chart icon-medium"> <strong>EmotionWatch</strong></i></a>
+      </div>
+    </div>
+  </div>
+
+<div class="container">
+    <header class="cs-header">
+      <h1><i class="icon-bar-chart icon-medium"></i> EmotionWatch</h1>
+      <p>Indexing Movies through Emotions. Discover the relationship between sentiment and plot shape in movies</p>
+      <p></p>  
+
+        <div class="pull-right">
+            <select class="form-control" id="movie-list">
+        <form>
+
+  <!-- <label><input type="radio" name="mode" value="grouped"> Grouped</label>
+  <label><input type="radio" name="mode" value="stacked" checked> Stacked</label> -->
+</form>
+
+
+            </select>
+        </div>
+
+    </header>
+
+
+  <div class="input-group">
+                    <input type="text" id="search"  class="form-control" placeholder="Search" name="q" onkeyup="searchWord()">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                </div>
+
+		 <div><select name="displayList" id="displayList" multiple="multiple" size="10"></select>
+ <!--<iframe id="movie-video" width="460" height="215" src="https://www.youtube.com/embed/OiTiKOy59o4" frameborder="0" allowfullscreen></iframe>-->
+
+   <video id="ourvideo" poster="gravity.jpg" autobuffer controls>
+                <source src="http://statecs.com/DH2321/project4/gravity.ogv">
+            </video>
+            <div id="infoWrapper"></div>
+
+
+                        
+   </div>
+      </div>
+
+        <select name="lineList" id="lineList"></select>
+
+	
+
+<div id="charts">
+  <div id="hour-chart" class="chart">
+    <div class="title">Time of Day</div>
+  </div>
+  <div id="delay-chart" class="chart">
+    <div class="title">Arrival Delay (min.)</div>
+  </div>
+  <div id="distance-chart" class="chart">
+    <div class="title">Distance (mi.)</div>
+  </div>
+  <div id="date-chart" class="chart">
+    <div class="title">Date</div>
+  </div>
+</div>
+
+<aside id="totals"><span id="active">-</span> of <span id="total">-</span> flights selected.</aside>
+
+<div id="lists">
+  <div id="flight-list" class="list"></div>
+</div>
+
+
+		<script type="text/javascript">
+			
+			// Initialize lists of lines
+			var jsonFile;
+			var lineList = document.getElementById('lineList');
+            lineList.style.visibility = 'hidden';
+            var displayList = document.getElementById('displayList');
+            updateList();
+			var vid = document.getElementById("ourvideo");
+			
+			// Code to jump to time-offset in video when selected
+			$("#displayList").on('change', function(){
+				var timestamp = $(this).val().toString().split(":");
+				var offset = parseInt((timestamp[0] * 3600)) + parseInt((timestamp[1] * 60)) + parseInt((timestamp[2]));
+				vid.currentTime = offset;
+			});
+			
+			// Code that automatically highlights option in searchbar based on timestamp
+			vid.addEventListener('timeupdate',function(event){
+				var currentTime = vid.currentTime;
+				var hour = Math.floor(currentTime/3600);
+				currentTime = currentTime % 3600;
+				var minute = Math.floor(currentTime / 60);
+				currentTime = currentTime % 60;
+				var second = Math.floor(currentTime);
+				var value = padZero(hour) + ":" + padZero(minute) + ":" + padZero(second);
+				//console.log(value);
+				setOption(value);
+			},false);
+			
+			
+			// Helper code to pad zeroes
+			function padZero(number) {
+				if (number<=10) { number = ("0"+number).slice(-2); }
+				return number;
+			}
+			
+			// Helper code to select an option
+            function setOption(value) {
+				var options = displayList.options;
+				for (var i = 0, optionsLength = options.length; i < optionsLength; i++) {
+					if (options[i].value == value) {
+						displayList.selectedIndex = i;
+						return true;
+					}
+				}
+				return false;
+			}
+            
+			// Code that updates list of lines when movie is changed.
+            function updateList(movieTitle) {
+				// Defensive code, loads default values
+                displayList.options.length = 0;
+                lineList.options.length = 0;
+                if (movieTitle == null || movieTitle.length < 0) {
+                    movieTitle = "json/Gravity.json";
+                }
+                
+                else {
+                    movieTitle = movieTitle.split(".")[0];
+                    movieTitle = "json/" + movieTitle + ".json";
+
+                }
+				
+				// Populates dummy/base with lines from JSON file (hidden to user)
+                $.getJSON(movieTitle,{}, function(response) {
+                    jsonFile = response;
+                    selector = $("#lineList");
+                    for(var key in jsonFile){
+                        if(jsonFile.hasOwnProperty(key)){
+                            var line = jsonFile[key];
+							var timeVal = line["timestamp"].substring(0,line["timestamp"].indexOf(","));
+                            selector.append("<option value="+timeVal+">"+timeVal + " - " + line["sentence"]+"</option>");
+                        }
+                    }
+                });
+				
+				// Populates actual list that is displayed to user
+                $.getJSON(movieTitle,{}, function(response) {
+                    jsonFile = response;
+                    selector = $("#displayList");
+                    for(var key in jsonFile){
+                        if(jsonFile.hasOwnProperty(key)){
+                            var line = jsonFile[key];
+							var timeVal = line["timestamp"].substring(0,line["timestamp"].indexOf(","));
+                            selector.append("<option value="+timeVal+">"+timeVal + " - " + line["sentence"]+"</option>");
+                        }
+                    }
+                });
+            }
+
+
+			 
+         function searchWord(){
+				// Searches for words in base list, and updates display list with hits.
+                var searchvalue= document.getElementById('search').value;
+                searchvalue = searchvalue.toLowerCase();
+                var from_s = document.getElementById('lineList');
+                var displayList = document.getElementById('displayList');
+                displayList.options.length = 0;
+                for (var i=0;i<from_s.options.length-1;i++) {
+                    var str=from_s.options[i].text;
+                    var st = str.toLowerCase();
+                    if(st.search(searchvalue)>-1) {
+                        var val = from_s.options[i].value;
+                        var newRow = new Option(str, val);
+                        displayList.add(newRow);
+                    }            
+                }
+				
+				// Automatically highlight first line as default
+                if (searchvalue.length > 0) {
+                    $("#displayList").val($("#displayList option:first").val());
+                }
+            }
+
+			 
+
+		</script>
+		</div>
+
+
+      
+    
+                
+<div class="clear-fix"></div>
+            <div id="bar-chart"></div>
+
+            <!--<div id="progress-bar">
+                <script type="text/javascript">progressBar("data/Gravity.csv", "orange")</script>
+            </div>-->
+                <svg id="chart1"></svg>
+           <!-- <div id="chart"> 
+                <script type="text/javascript">
+                    chart("data/mock.csv", "orange");
+                </script>
+            </div>-->
+
+         
+
+        
+    </body>
+    <script type="text/javascript">
+        $.getJSON("json/movieList.json", function (json) {
+            selector = $("#movie-list");
+            for(var key in json){
+                if(json.hasOwnProperty(key)){
+                    var movie =json[key];
+                    selector.append("<option value="+movie["file"]+"-"+movie["color"]+"-"+movie["video"]+">"+key+"</option>");
+                }
+            }
+        })
+        $("#movie-list").on('change', function(){
+            var newMovie = $(this).val().split("-");
+            barChart("data/"+newMovie[0]);
+            $("#movie-video").attr("src", newMovie[2]);
+            updateList(newMovie[0]);
+        });
+
+    </script>
+
+  <script>
+
+// (It's CSV, but GitHub Pages only gzip's JSON at the moment.)
+d3.csv("flights-3m.json", function(error, flights) {
+
+  // Various formatters.
+  var formatNumber = d3.format(",d"),
+      formatChange = d3.format("+,d"),
+      formatDate = d3.time.format("%B %d, %Y"),
+      formatTime = d3.time.format("%I:%M %p");
+
+  // A nest operator, for grouping the flight list.
+  var nestByDate = d3.nest()
+      .key(function(d) { return d3.time.day(d.date); });
+
+  // A little coercion, since the CSV is untyped.
+  flights.forEach(function(d, i) {
+    d.index = i;
+    d.date = parseDate(d.date);
+    d.delay = +d.delay;
+    d.distance = +d.distance;
+  });
+
+  // Create the crossfilter for the relevant dimensions and groups.
+  var flight = crossfilter(flights),
+      all = flight.groupAll(),
+      date = flight.dimension(function(d) { return d.date; }),
+      dates = date.group(d3.time.day),
+      hour = flight.dimension(function(d) { return d.date.getHours() + d.date.getMinutes() / 60; }),
+      hours = hour.group(Math.floor),
+      delay = flight.dimension(function(d) { return Math.max(-60, Math.min(149, d.delay)); }),
+      delays = delay.group(function(d) { return Math.floor(d / 10) * 10; }),
+      distance = flight.dimension(function(d) { return Math.min(1999, d.distance); }),
+      distances = distance.group(function(d) { return Math.floor(d / 50) * 50; });
+
+  var charts = [
+
+    barChart()
+        .dimension(hour)
+        .group(hours)
+      .x(d3.scale.linear()
+        .domain([0, 24])
+        .rangeRound([0, 10 * 24])),
+
+    barChart()
+        .dimension(delay)
+        .group(delays)
+      .x(d3.scale.linear()
+        .domain([-60, 150])
+        .rangeRound([0, 10 * 21])),
+
+    barChart()
+        .dimension(distance)
+        .group(distances)
+      .x(d3.scale.linear()
+        .domain([0, 2000])
+        .rangeRound([0, 10 * 40])),
+
+    barChart()
+        .dimension(date)
+        .group(dates)
+        .round(d3.time.day.round)
+      .x(d3.time.scale()
+        .domain([new Date(2001, 0, 1), new Date(2001, 3, 1)])
+        .rangeRound([0, 10 * 90]))
+        .filter([new Date(2001, 1, 1), new Date(2001, 2, 1)])
+
+  ];
+
+  // Given our array of charts, which we assume are in the same order as the
+  // .chart elements in the DOM, bind the charts to the DOM and render them.
+  // We also listen to the chart's brush events to update the display.
+  var chart = d3.selectAll(".chart")
+      .data(charts)
+      .each(function(chart) { chart.on("brush", renderAll).on("brushend", renderAll); });
+
+  // Render the initial lists.
+  var list = d3.selectAll(".list")
+      .data([flightList]);
+
+  // Render the total.
+  d3.selectAll("#total")
+      .text(formatNumber(flight.size()));
+
+  renderAll();
+
+  // Renders the specified chart or list.
+  function render(method) {
+    d3.select(this).call(method);
+  }
+
+  // Whenever the brush moves, re-rendering everything.
+  function renderAll() {
+    chart.each(render);
+    list.each(render);
+    d3.select("#active").text(formatNumber(all.value()));
+  }
+
+  // Like d3.time.format, but faster.
+  function parseDate(d) {
+    return new Date(2001,
+        d.substring(0, 2) - 1,
+        d.substring(2, 4),
+        d.substring(4, 6),
+        d.substring(6, 8));
+  }
+
+  window.filter = function(filters) {
+    filters.forEach(function(d, i) { charts[i].filter(d); });
+    renderAll();
+  };
+
+  window.reset = function(i) {
+    charts[i].filter(null);
+    renderAll();
+  };
+
+  function flightList(div) {
+    var flightsByDate = nestByDate.entries(date.top(40));
+
+    div.each(function() {
+      var date = d3.select(this).selectAll(".date")
+          .data(flightsByDate, function(d) { return d.key; });
+
+      date.enter().append("div")
+          .attr("class", "date")
+        .append("div")
+          .attr("class", "day")
+          .text(function(d) { return formatDate(d.values[0].date); });
+
+      date.exit().remove();
+
+      var flight = date.order().selectAll(".flight")
+          .data(function(d) { return d.values; }, function(d) { return d.index; });
+
+      var flightEnter = flight.enter().append("div")
+          .attr("class", "flight");
+
+      flightEnter.append("div")
+          .attr("class", "time")
+          .text(function(d) { return formatTime(d.date); });
+
+      flightEnter.append("div")
+          .attr("class", "origin")
+          .text(function(d) { return d.origin; });
+
+      flightEnter.append("div")
+          .attr("class", "destination")
+          .text(function(d) { return d.destination; });
+
+      flightEnter.append("div")
+          .attr("class", "distance")
+          .text(function(d) { return formatNumber(d.distance) + " mi."; });
+
+      flightEnter.append("div")
+          .attr("class", "delay")
+          .classed("early", function(d) { return d.delay < 0; })
+          .text(function(d) { return formatChange(d.delay) + " min."; });
+
+      flight.exit().remove();
+
+      flight.order();
+    });
+  }
+
+  function barChart() {
+    if (!barChart.id) barChart.id = 0;
+
+    var margin = {top: 10, right: 10, bottom: 20, left: 10},
+        x,
+        y = d3.scale.linear().range([100, 0]),
+        id = barChart.id++,
+        axis = d3.svg.axis().orient("bottom"),
+        brush = d3.svg.brush(),
+        brushDirty,
+        dimension,
+        group,
+        round;
+
+    function chart(div) {
+      var width = x.range()[1],
+          height = y.range()[0];
+
+      y.domain([0, group.top(1)[0].value]);
+
+      div.each(function() {
+        var div = d3.select(this),
+            g = div.select("g");
+
+        // Create the skeletal chart.
+        if (g.empty()) {
+          div.select(".title").append("a")
+              .attr("href", "javascript:reset(" + id + ")")
+              .attr("class", "reset")
+              .text("reset")
+              .style("display", "none");
+
+          g = div.append("svg")
+              .attr("width", width + margin.left + margin.right)
+              .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+          g.append("clipPath")
+              .attr("id", "clip-" + id)
+            .append("rect")
+              .attr("width", width)
+              .attr("height", height);
+
+          g.selectAll(".bar")
+              .data(["background", "foreground"])
+            .enter().append("path")
+              .attr("class", function(d) { return d + " bar"; })
+              .datum(group.all());
+
+          g.selectAll(".foreground.bar")
+              .attr("clip-path", "url(#clip-" + id + ")");
+
+          g.append("g")
+              .attr("class", "axis")
+              .attr("transform", "translate(0," + height + ")")
+              .call(axis);
+
+          // Initialize the brush component with pretty resize handles.
+          var gBrush = g.append("g").attr("class", "brush").call(brush);
+          gBrush.selectAll("rect").attr("height", height);
+          gBrush.selectAll(".resize").append("path").attr("d", resizePath);
+        }
+
+        // Only redraw the brush if set externally.
+        if (brushDirty) {
+          brushDirty = false;
+          g.selectAll(".brush").call(brush);
+          div.select(".title a").style("display", brush.empty() ? "none" : null);
+          if (brush.empty()) {
+            g.selectAll("#clip-" + id + " rect")
+                .attr("x", 0)
+                .attr("width", width);
+          } else {
+            var extent = brush.extent();
+            g.selectAll("#clip-" + id + " rect")
+                .attr("x", x(extent[0]))
+                .attr("width", x(extent[1]) - x(extent[0]));
+          }
+        }
+
+        g.selectAll(".bar").attr("d", barPath);
+      });
+
+      function barPath(groups) {
+        var path = [],
+            i = -1,
+            n = groups.length,
+            d;
+        while (++i < n) {
+          d = groups[i];
+          path.push("M", x(d.key), ",", height, "V", y(d.value), "h9V", height);
+        }
+        return path.join("");
+      }
+
+      function resizePath(d) {
+        var e = +(d == "e"),
+            x = e ? 1 : -1,
+            y = height / 3;
+        return "M" + (.5 * x) + "," + y
+            + "A6,6 0 0 " + e + " " + (6.5 * x) + "," + (y + 6)
+            + "V" + (2 * y - 6)
+            + "A6,6 0 0 " + e + " " + (.5 * x) + "," + (2 * y)
+            + "Z"
+            + "M" + (2.5 * x) + "," + (y + 8)
+            + "V" + (2 * y - 8)
+            + "M" + (4.5 * x) + "," + (y + 8)
+            + "V" + (2 * y - 8);
+      }
+    }
+
+    brush.on("brushstart.chart", function() {
+      var div = d3.select(this.parentNode.parentNode.parentNode);
+      div.select(".title a").style("display", null);
+    });
+
+    brush.on("brush.chart", function() {
+      var g = d3.select(this.parentNode),
+          extent = brush.extent();
+      if (round) g.select(".brush")
+          .call(brush.extent(extent = extent.map(round)))
+        .selectAll(".resize")
+          .style("display", null);
+      g.select("#clip-" + id + " rect")
+          .attr("x", x(extent[0]))
+          .attr("width", x(extent[1]) - x(extent[0]));
+      dimension.filterRange(extent);
+    });
+
+    brush.on("brushend.chart", function() {
+      if (brush.empty()) {
+        var div = d3.select(this.parentNode.parentNode.parentNode);
+        div.select(".title a").style("display", "none");
+        div.select("#clip-" + id + " rect").attr("x", null).attr("width", "100%");
+        dimension.filterAll();
+      }
+    });
+
+    chart.margin = function(_) {
+      if (!arguments.length) return margin;
+      margin = _;
+      return chart;
+    };
+
+    chart.x = function(_) {
+      if (!arguments.length) return x;
+      x = _;
+      axis.scale(x);
+      brush.x(x);
+      return chart;
+    };
+
+    chart.y = function(_) {
+      if (!arguments.length) return y;
+      y = _;
+      return chart;
+    };
+
+    chart.dimension = function(_) {
+      if (!arguments.length) return dimension;
+      dimension = _;
+      return chart;
+    };
+
+    chart.filter = function(_) {
+      if (_) {
+        brush.extent(_);
+        dimension.filterRange(_);
+      } else {
+        brush.clear();
+        dimension.filterAll();
+      }
+      brushDirty = true;
+      return chart;
+    };
+
+    chart.group = function(_) {
+      if (!arguments.length) return group;
+      group = _;
+      return chart;
+    };
+
+    chart.round = function(_) {
+      if (!arguments.length) return round;
+      round = _;
+      return chart;
+    };
+
+    return d3.rebind(chart, brush, "on");
+  }
+});
+
+</script>
+
+        <script src="js/stackedarea.js" type="text/javascript"></script>
+        <script src="js/barchart.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            // stackedArea("data/Gravity.csv");
+            barChart("data/Gravity.csv");
+        </script>
+
+
+</html>

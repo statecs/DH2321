@@ -1,5 +1,6 @@
         .container{
-            width:1800px;
+            max-width:1800px;
+            width:100%;
         }
             body {
                 font: 10px;
@@ -7,6 +8,7 @@
                 font-family: 'Roboto', sans-serif;
                 
             }
+
             p{
                 font-family: 'Roboto', sans-serif;
             }
@@ -55,13 +57,15 @@
                 line-height: 300px;
                 padding-top:20px;
                 padding-bottom:20px;
+                outline: none;
             }
-                        option:hover,
+            option:hover,
             option:focus,
             option:active,
             option:checked {
                 background: linear-gradient(#F3913B, #F3913B);
                 color:#fff;
+                outline: none;
             }
             .btn{
                   margin: -20px 10px 0px 10px;
@@ -84,3 +88,10 @@
                 width:90%;
             }
 			
+
+            @media screen and (max-width: 900px) {
+             .container{
+                 width:600px;
+                }
+
+            }

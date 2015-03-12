@@ -85,7 +85,7 @@ function updateList(movieTitle) {
 			if(jsonFile.hasOwnProperty(key)){
 				var line = jsonFile[key];
 				var timeVal = line["timestamp"].substring(0,line["timestamp"].indexOf(","));
-				selector.append("<option value="+timeVal+">"+timeVal + " - " + line["sentence"]+"</option>");
+				selector.append("<option value="+timeVal+">"+timeVal + " - " + line["emotions"] + line["sentence"]+"</option>");
 			}
 		}
 	});

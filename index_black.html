@@ -26,13 +26,15 @@
                 font: 10px;
                 margin-top:50px;
                 font-family: 'Roboto', sans-serif;
+                 background-color: #000000;
                 
             }
-            p{
+            h1, p{
                 font-family: 'Roboto', sans-serif;
+                color:#686868;
             }
             #chart { 
-                background: #fff;
+                background: #000;
 
             }
             #chart .remove {
@@ -47,10 +49,11 @@
             .axis path, .axis line {
                 fill: none;
                 stroke: #000;
+                stroke-width: 2px;
                 shape-rendering: crispEdges;
             }
             #bar-chart .tick{
-                /*display:none;*/
+                display:none;
             }
             button {
                 right: 50px;
@@ -70,6 +73,7 @@
                 border:0;
                 width:50%;
                 height:320px;
+                 background-color: #000000;
 
             }
             #displayList option{
@@ -77,14 +81,18 @@
                 line-height: 300px;
                 padding-top:20px;
                 padding-bottom:20px;
+                color:#686868;
             }
-                        option:hover,
+            option:hover,
             option:focus,
             option:active,
             option:checked {
-    background: linear-gradient(#F3913B, #F3913B);
-    color:#fff;
-}
+                background: linear-gradient(#F3913B, #F3913B);
+                color:#fff;
+            }
+            .nvd3 nv-legend .nv-legend-text{
+                color:#fff;
+            }
             .btn{
                
                   margin: -20px 10px 0px 10px;
@@ -103,6 +111,14 @@
             }
             .col-sm-1{
                 padding-left:0px;
+            }
+            .form-control{
+                background-color:#000;
+                border:1px solid #3b3b3b;
+            }
+            .input-group .form-control{
+                background-color:#000;
+                border:1px solid #3b3b3b;
             }
 			
         </style>

@@ -106,7 +106,7 @@ var brush = d3.svg.brush()
     .on("brushend", function(){
       var extent = brush.extent();
       if(extent[0] == extent[1]) {
-        stackedArea(filePath, extent[0]);
+        stackedArea(filePath, Math.round(extent[0]/ x.rangeBand()));
       } else {
         if(extent[1] - extent[0] > 100){
           d3.event.target.extent([extent[0],extent[0]+100]); d3.event.target(d3.select(this));

@@ -61,10 +61,12 @@ var color =  d3.scale.ordinal()
       .range(colorArray);
    /*  .domain([0, n - 1])
     .range(["#B30000", "#E34A33", "#ffe7db", ""]);*/
+console.log(m)
 
 var xAxis = d3.svg.axis()
-    .scale(x)
-    .tickSize(0)
+    .scale(d3.scale.ordinal().rangeBands([0,width]).domain(d3.range(50,m,100)))
+    .tickSize(1)
+    .tickFormat(function(d) { return d3.time.format('%X')(new Date(data[d*5].date)) })
     .tickPadding(6)
     .orient("bottom");
 

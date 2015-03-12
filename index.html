@@ -176,7 +176,8 @@
             var newMovie = $(this).val().split("-");
 			FILEPATH = "data/"+newMovie[0];
             barChart(FILEPATH);
-            $("#movie-video").attr("src", newMovie[2]);
+            $("#ourvideo source").attr("src", newMovie[2]);
+            $("#ourvideo").load()
             updateList(newMovie[0]);
         });
 

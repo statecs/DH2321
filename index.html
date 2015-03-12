@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="js/d3.min.js" charset="utf-8"></script>
+        <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+        <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+        <script src="js/streamgraph.js" type="text/javascript"></script>
+        <script src="js/progressBar.js" type="text/javascript"></script>
+        <link href="build/nv.d3.css" rel="stylesheet" type="text/css">
+        <script src="build/nv.d3.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+
+  <div class="navbar navbar-fixed-top navbar-inverse cs-navbar">
+    <div class="navbar-inner">
+      <div class="container">
+        <a href="#" class="navbar-brand cs-brand"><i class="icon-bar-chart icon-medium"> <strong>EmotionWatch</strong></i></a>
+      </div>
+    </div>
+  </div>
+
+<div class="container">
+    <header class="cs-header">
+      <h1><i class="icon-bar-chart icon-medium"></i> EmotionWatch</h1>
+      <p>Indexing Movies through Emotions. Discover the relationship between sentiment and plot shape in movies</p>
+      <p></p>  
+
+        <div class="col-sm-1">
+            <select class="form-control" id="movie-list">
+        <form>
+
+</form>
+
+
+            </select>
+        </div>
+
+    </header>
+
+
+                <div class="input-group col-sm-3">
+                    <input type="text" id="search"  class="form-control" placeholder="Search" name="q" onkeyup="searchWord()">
+                </div>
+
+		 <div class="col-sm-6 col-xs-height "><select name="displayList" id="displayList" multiple="multiple" size="10"></select></div>
+
+            <div class="col-sm-6 col-xs-height "> <video id="ourvideo" poster="gravity.jpg" autobuffer controls>
+                <source src="http://web.armada.nu/test/gravity.mp4">
+            </video>
+
+        <select name="lineList" id="lineList"></select>
+           </div>
+              
+		</div> 
+<div class="clear-fix"></div>
+            <div id="bar-chart"></div>
+
+                <svg id="chart1"></svg>
+
+ 
+         
+
+        
+    </body>
+    <script type="text/javascript">
+		var FILEPATH = "data/Gravity.csv";;
+        $.getJSON("json/movieList.json", function (json) {
+            selector = $("#movie-list");
+            for(var key in json){
+                if(json.hasOwnProperty(key)){
+                    var movie =json[key];
+                    selector.append("<option value="+movie["file"]+"-"+movie["color"]+"-"+movie["video"]+">"+key+"</option>");
+                }
+            }
+        })
+        $("#movie-list").on('change', function(){
+            var newMovie = $(this).val().split("-");
+			FILEPATH = "data/"+newMovie[0];
+            barChart(FILEPATH);
+            $("#ourvideo source").attr("src", newMovie[2]);
+            $("#ourvideo").load()
+            updateList(newMovie[0]);
+        });
+
+    </script>
+
+  
+        <script src="js/stackedarea.js" type="text/javascript"></script>
+        <script src="js/barchart.js" type="text/javascript"></script>
+		<script src="js/searchbox.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            // stackedArea("data/Gravity.csv");
+            barChart("data/Gravity.csv");
+        </script>
+</html>

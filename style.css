@@ -60,11 +60,21 @@
                 padding-bottom:20px;
                 outline: none;
             }
-            option:hover,
-            option:focus,
-            option:active,
-            option:checked {
-                background: linear-gradient(#ffb574, #ffb574);
+            option.green:hover,
+            option.green:focus,
+            option.green:active,
+            option.green:checked {
+                background: linear-gradient(#77cc25, #77cc25);
+                opacity: 0.7;
+                color:#fff;
+                outline: none;
+            }
+            option.red:hover,
+            option.red:focus,
+            option.red:active,
+            option.red:checked {
+                background: linear-gradient(#cf6a6a, #cf6a6a);
+                opacity: 0.7;
                 color:#fff;
                 outline: none;
             }

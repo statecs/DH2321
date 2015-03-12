@@ -31,6 +31,7 @@ vid.addEventListener('timeupdate',function(event){
 
 
 function barClicked(lineIndex) {
+	console.log(lineIndex);
 	var optionSelected = displayList[lineIndex];
 	displayList.selectedIndex = lineIndex;
 	var timestamp = optionSelected.val().toString().split(":");

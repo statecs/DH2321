@@ -89,6 +89,7 @@ var layer = svg.selectAll(".layer")
       var clicked = x.domain()[j];
       stackedArea(filePath, clicked);
 	  barClicked(clicked);
+	  console.log(clicked);
     });
 
 
@@ -107,6 +108,7 @@ var brush = d3.svg.brush()
       var extent = brush.extent();
       if(extent[0] == extent[1]) {
         stackedArea(filePath, Math.round(extent[0]/ x.rangeBand()));
+		barClicked(extent[0]);
       } else {
         if(extent[1] - extent[0] > 100){
           d3.event.target.extent([extent[0],extent[0]+100]); d3.event.target(d3.select(this));

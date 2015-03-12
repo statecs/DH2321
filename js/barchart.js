@@ -87,11 +87,12 @@ var layer = svg.selectAll(".layer")
       var j;
       for(j=0; xPos > (leftEdges[j] + width); j++) {} //do nothing, just increment j until case fail
       var clicked = x.domain()[j];
-    console.log(clicked)
       stackedArea(filePath, clicked);
 	  barClicked(clicked);
     });
 
+
+console.log(x.rangeBand())
 var rect = layer.selectAll("rect")
     .data(function(d) { return d; })
   .enter().append("rect")
@@ -104,10 +105,10 @@ var brush = d3.svg.brush()
     .x(x)
     .on("brushend", function(){
       var extent = brush.extent();
-      console.log(extent);
       if(extent[1] - extent[0] > 100){
         d3.event.target.extent([extent[0],extent[0]+100]); d3.event.target(d3.select(this));
       }
+      extent = extent.map(function(e){ return Math.round(e / x.rangeBand());})
       stackedArea(filePath, extent);
     });
 

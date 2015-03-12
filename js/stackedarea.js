@@ -44,7 +44,7 @@ function stackedArea(filePath, zoomRange){
             var firstLine = zoomRange[0] * 5,
             lastLine = zoomRange[1] * 5;
         } else {
-            var firstLine = (LineNumber*5) - 50;
+            var firstLine = (zoomRange*5) - 50;
             if (firstLine < 0) firstLine = 0;
             if (firstLine + 100 > data.length) firstLine -= 50;
             var lastLine = firstLine + 100;
@@ -54,8 +54,6 @@ function stackedArea(filePath, zoomRange){
         for(var i = firstLine; i < lastLine; i++){
             zoomedData.push(data[i])
         }
-
-        console.log(zoomedData);
 
         chart = nv.models.stackedAreaChart()
             .useInteractiveGuideline(true)

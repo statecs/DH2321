@@ -55,12 +55,8 @@ function stackedArea(filePath, LineNumber){
             .x(function(d) { return d.date })
             .y(function(d) { return d.y *100})
             .controlLabels({stacked: "Stacked"})
-<<<<<<< HEAD
-            .color(["#5dc6d0", "#B0E0E6", "#D3D3D3", "#fdc660", "#FFA500"])
-            //.color(["#d53f3f", "#cf6a6a", "#ffffff", "#c1f68e", "#77cc25"])
-=======
             .color(["#67cb57", "#57a1cb", "#FFF0E9", "#67AE87", "#67A281"])
->>>>>>> 32f1132c7e15ede3d1c84ef5d443c27d3255bc3f
+
             .duration(300);
         var layers = stack(nest.entries(zoomedData));
         chart.xAxis.tickFormat(function(d) { return d3.time.format('%X')(new Date(d)) });

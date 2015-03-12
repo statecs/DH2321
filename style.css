@@ -83,10 +83,29 @@
                 padding-left:0px;
             }
             #ourvideo{
-                margin: 15% 0;
+                margin: 6% 0;
                 width:100%;
             }
-			
+            .circles {
+                font-size:14px;
+            }
+
+			.circlevn{
+                color:#d53f3f;
+            }
+            .circlen{
+                color:#cf6a6a;
+            }
+            .circlene{
+                color:#e9ede6;
+            }
+            .circlep{
+                color:#c1f68e;
+            }
+            .circlevp{
+                color:#77cc25;
+            }
+
 
             @media screen and (max-width: 900px) {
              .container{

@@ -1,5 +1,5 @@
 function stackedArea(filePath, zoomRange){
-    $("#chart1").empty();
+    // $("#chart1").empty();
     // var histcatexplong = [
     //     {
     //         "key" : "Very Sad" ,

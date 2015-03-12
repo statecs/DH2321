@@ -1,6 +1,6 @@
 function barChart(filePath){
 $("#bar-chart").empty();
-$("#chart1").empty();
+// $("#chart1").empty();
 var format = d3.time.format("%H:%M:%S,%L");
     var colors = d3.scale.category20();
     var nest = d3.nest().key(function(d) { return d.key; });
@@ -54,7 +54,7 @@ var y = d3.scale.linear()
     .domain([0, yStackMax])
     .range([height, 0]);
 
-var colorArray =["#d53f3f", "#cf6a6a", "#ffffff", "#c1f68e", "#77cc25"];
+var colorArray =["#d53f3f", "#cf6a6a", "#e9ede6", "#8def2f", "#5a9d1a"];
 // var colorArray =["#d53f3f", "#cf6a6a", "#ffffff", "#c1f68e", "#77cc25"])
 // var colorArray =["#67cb57", "#57a1cb", "#FFF0E9", "#67AE87", "#67A281"])
             

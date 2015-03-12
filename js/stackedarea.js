@@ -1,4 +1,4 @@
-function stackedArea(filePath, LineNumber){
+function stackedArea(filePath, zoomRange){
     $("#chart1").empty();
     // var histcatexplong = [
     //     {
@@ -40,11 +40,18 @@ function stackedArea(filePath, LineNumber){
             d.value = +d.value;
         });
 
-        var firstLine = (LineNumber*5) - 50;
-        if (firstLine < 0) firstLine = 0;
-        if (firstLine + 100 > data.length) firstLine -= 50;
+        if(Array.isArray(zoomRange)){
+            var firstLine = zoomRange[0] * 5,
+            lastLine = zoomRange[1] * 5;
+        } else {
+            var firstLine = (LineNumber*5) - 50;
+            if (firstLine < 0) firstLine = 0;
+            if (firstLine + 100 > data.length) firstLine -= 50;
+            var lastLine = firstLine + 100;
+        }
+
         var zoomedData=[];
-        for(var i = firstLine; i < firstLine+100; i++){
+        for(var i = firstLine; i < lastLine; i++){
             zoomedData.push(data[i])
         }
 

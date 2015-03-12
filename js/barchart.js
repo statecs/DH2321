@@ -75,18 +75,17 @@ var svg = d3.select("#bar-chart").append("svg")
 
 var layer = svg.selectAll(".layer")
     .data(newLayers)
-  .enter().append("g")
+    .enter().append("g")
     .attr("class", "layer")
     .style("fill", function(d, i) { return color(i); })
-    .on("click", function(d) {
+    .on("click", function(d){
       var xPos = d3.mouse(this)[0];
-      console.log("Clicked at " + xPos);
       var leftEdges = x.range();
       var width = x.rangeBand();
       var j;
-      for(j=0; xPos > (leftEdges[j] + width); j++) {} //do nothing, just increment j until case fails
-      var clicked = x.domain()[j]
-      console.log(layers[0].values[clicked]);
+      for(j=0; xPos > (leftEdges[j] + width); j++) {} //do nothing, just increment j until case fail
+      var clicked = x.domain()[j];
+    console.log(clicked)
       stackedArea(filePath, clicked);
     });
 
@@ -97,6 +96,17 @@ var rect = layer.selectAll("rect")
     .attr("y", height)
     .attr("width", x.rangeBand())
     .attr("height", 0);
+
+var brush = d3.svg.brush()
+    .x(x)
+    .on("brushend", function(){
+      var extent = brush.extent();
+      console.log(extent);
+      if(extent[1] - extent[0] > 100){
+        d3.event.target.extent([extent[0],extent[0]+100]); d3.event.target(d3.select(this));
+      }
+      stackedArea(filePath, extent);
+    });
 
 rect.transition()
     .delay(function(d, i) { return i * 10; })
@@ -110,6 +120,12 @@ svg.append("g")
 
 d3.selectAll("input").on("change", change);
 
+var gBrush = svg.append("g")
+    .attr("class", "brush")
+    .call(brush);
+
+gBrush.selectAll("rect")
+    .attr("height", height);
 
 function change() {
   var timeout = setTimeout(function() {
@@ -164,5 +180,6 @@ function bumpLayer(n, o) {
   for (i = 0; i < 5; ++i) bump(a);
   return a.map(function(d, i) { return {x: i, y: Math.max(0, d)}; });
 }
+  
 });
 }

@@ -8,10 +8,11 @@ var vid = document.getElementById("ourvideo");
 
 // Code to jump to time-offset in video when selected
 $("#displayList").on('change', function(){
-	// var timestamp = $(this).val().toString().split(":");
+	var timestamp = $(this).val().toString().split(":");
 	// var offset = parseInt((timestamp[0] * 3600)) + parseInt((timestamp[1] * 60)) + parseInt((timestamp[2]));
 	// vid.currentTime = offset;
 	var lineIndex = $(this).index;
+	console.log(lineIndex);
 	stackedArea(FILEPATH, lineIndex);
 });
 

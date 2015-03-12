@@ -54,8 +54,10 @@ var y = d3.scale.linear()
     .domain([0, yStackMax])
     .range([height, 0]);
 
-var colorArray = ["#D16666", "#EE9284", "#FFF0E9", "#67AE87", "#67A281"];
-
+var colorArray =["#5dc6d0", "#B0E0E6", "#D3D3D3", "#fdc660", "#FFA500"];
+// var colorArray =["#d53f3f", "#cf6a6a", "#ffffff", "#c1f68e", "#77cc25"])
+// var colorArray =["#67cb57", "#57a1cb", "#FFF0E9", "#67AE87", "#67A281"])
+            
 var color =  d3.scale.ordinal()
       .range(colorArray);
    /*  .domain([0, n - 1])
@@ -87,6 +89,7 @@ var layer = svg.selectAll(".layer")
       var clicked = x.domain()[j];
     console.log(clicked)
       stackedArea(filePath, clicked);
+	  barClicked(clicked);
     });
 
 var rect = layer.selectAll("rect")

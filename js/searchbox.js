@@ -8,9 +8,9 @@ var vid = document.getElementById("ourvideo");
 
 // Code to jump to time-offset in video when selected
 $("#displayList").on('change', function(){
-	// var timestamp = $(this).val().toString().split(":");
-	// var offset = parseInt((timestamp[0] * 3600)) + parseInt((timestamp[1] * 60)) + parseInt((timestamp[2]));
-	// vid.currentTime = offset;
+	var timestamp = $(this).val().toString().split(":");
+	var offset = parseInt((timestamp[0] * 3600)) + parseInt((timestamp[1] * 60)) + parseInt((timestamp[2]));
+	vid.currentTime = offset;
 	var lineIndex = $(this).index;
 	stackedArea(FILEPATH, lineIndex);
 });
@@ -25,9 +25,18 @@ vid.addEventListener('timeupdate',function(event){
 	var second = Math.floor(currentTime);
 	var value = padZero(hour) + ":" + padZero(minute) + ":" + padZero(second);
 	//console.log(value);
-	setOption(value);
+	var lineIndex = setOption(value);
+	stackedArea(FILEPATH, lineIndex);
 },false);
 
+
+function barClicked(lineIndex) {
+	var optionSelected = displayList[lineIndex];
+	displayList.selectedIndex = lineIndex;
+	var timestamp = optionSelected.val().toString().split(":");
+	var offset = parseInt((timestamp[0] * 3600)) + parseInt((timestamp[1] * 60)) + parseInt((timestamp[2]));
+	vid.currentTime = offset;
+}
 
 // Helper code to pad zeroes
 function padZero(number) {
@@ -41,7 +50,7 @@ function setOption(value) {
 	for (var i = 0, optionsLength = options.length; i < optionsLength; i++) {
 		if (options[i].value == value) {
 			displayList.selectedIndex = i;
-			return true;
+			return i;
 		}
 	}
 	return false;

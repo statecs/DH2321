@@ -63,6 +63,7 @@ function stackedArea(filePath, zoomRange){
             .y(function(d) { return d.y *100})
             .controlLabels({stacked: "Stacked"})
             .color(["#67cb57", "#57a1cb", "#FFF0E9", "#67AE87", "#67A281"])
+
             .duration(300);
         var layers = stack(nest.entries(zoomedData));
         chart.xAxis.tickFormat(function(d) { return d3.time.format('%X')(new Date(d)) });

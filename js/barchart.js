@@ -54,7 +54,7 @@ var y = d3.scale.linear()
     .domain([0, yStackMax])
     .range([height, 0]);
 
-var colorArray = ["#B30000", "#E34A33", "#ffe7db", "#027837", "#02652e"];
+var colorArray = ["#D16666", "#EE9284", "#FFF0E9", "#67AE87", "#67A281"];
 
 var color =  d3.scale.ordinal()
       .range(colorArray);

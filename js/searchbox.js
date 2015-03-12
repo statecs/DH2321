@@ -9,10 +9,9 @@ var vid = document.getElementById("ourvideo");
 // Code to jump to time-offset in video when selected
 $("#displayList").on('change', function(){
 	var timestamp = $(this).val().toString().split(":");
-	// var offset = parseInt((timestamp[0] * 3600)) + parseInt((timestamp[1] * 60)) + parseInt((timestamp[2]));
-	// vid.currentTime = offset;
+	var offset = parseInt((timestamp[0] * 3600)) + parseInt((timestamp[1] * 60)) + parseInt((timestamp[2]));
+	vid.currentTime = offset;
 	var lineIndex = $(this).index;
-	console.log(lineIndex);
 	stackedArea(FILEPATH, lineIndex);
 });
 
@@ -29,6 +28,14 @@ vid.addEventListener('timeupdate',function(event){
 	setOption(value);
 },false);
 
+
+function barClicked(lineIndex) {
+	var optionSelected = displayList[lineIndex];
+	displayList.selectedIndex = lineIndex;
+	// var timestamp = optionSelected.val().toString().split(":");
+	// var offset = parseInt((timestamp[0] * 3600)) + parseInt((timestamp[1] * 60)) + parseInt((timestamp[2]));
+	// vid.currentTime = offset;
+}
 
 // Helper code to pad zeroes
 function padZero(number) {

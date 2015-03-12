@@ -88,6 +88,7 @@ var layer = svg.selectAll(".layer")
       var clicked = x.domain()[j]
       console.log(layers[0].values[clicked]);
       stackedArea(filePath, clicked);
+	  barClicked(clicked);
     });
 
 var rect = layer.selectAll("rect")

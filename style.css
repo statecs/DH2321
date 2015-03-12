@@ -9,7 +9,8 @@
                 
             }
             p{
-                font-family: 'Roboto', sans-serif;
+                font: 12px helvetica;
+                padding-left:10px;
             }
             #chart { 
                 background: #fff;
@@ -19,18 +20,16 @@
               position: relative !important;
             }
             #chart1{
+                padding-top:30px;
                 height: 450px;
             }
             p {
-                font: 12px helvetica;
+               
             }
             .axis path, .axis line {
                 fill: none;
                 stroke: #000;
                 shape-rendering: crispEdges;
-            }
-            #bar-chart .tick{
-                /*display:none;*/
             }
             button {
                 right: 50px;
@@ -88,6 +87,7 @@
             }
             .circles {
                 font-size:14px;
+                padding-right:25px;
             }
 
 			.circlevn{

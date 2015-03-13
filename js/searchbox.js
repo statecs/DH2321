@@ -138,11 +138,11 @@ function updateList(movieTitle) {
 
 				if ((negative) > (positive)){
 					var timeVal = line["timestamp"].substring(0,line["timestamp"].indexOf(","));
-				selector.append("<option class='red' value="+timeVal+">"+timeVal + " - " + line["sentence"]+ " -" + negative+"%" +"</option>");
+				selector.append("<option class='red' value="+timeVal+">"+timeVal + " - " + line["sentence"]+"</option>");
 
 				} else{
 				var timeVal = line["timestamp"].substring(0,line["timestamp"].indexOf(","));
-				selector.append("<option class='green' value="+timeVal+">"+timeVal + " - " + line["sentence"]+ " +" + positive+"%" +"</option>");
+				selector.append("<option class='green' value="+timeVal+">"+timeVal + " - " + line["sentence"] +"</option>");
 
 				}
 			}

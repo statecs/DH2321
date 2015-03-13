@@ -35,6 +35,11 @@ vid.addEventListener('timeupdate',function(event){
 	}
 },false);
 
+var currentTime = parseInt(this.currentTime, 10);
+if(currentTime == 6) { 
+    alert("Hej");
+}
+
 
 function barClicked(lineIndex) {
 	var optionSelected = displayList[lineIndex];
@@ -83,10 +88,9 @@ function updateList(movieTitle) {
 		selector = $("#lineList");
 		for(var key in jsonFile){
 			if(jsonFile.hasOwnProperty(key)){
-				var line = jsonFile[key];
+					var line = jsonFile[key];
 				var lineKeys = jsonFile[key].emotions;
-				
-
+			
 				neg = lineKeys["-"];
 				veryneg = lineKeys["--"];
 
@@ -98,9 +102,9 @@ function updateList(movieTitle) {
 				positive = parseInt((verypos * 100) + (pos * 100));
 
 
-				if ((negative) < (positive)){
+				if ((negative) > (positive)){
 					var timeVal = line["timestamp"].substring(0,line["timestamp"].indexOf(","));
-				selector.append("<option class='green' value="+timeVal+">"+timeVal + " - " + line["sentence"]+ " -" + negative+"%" +"</option>");
+				selector.append("<option class='red' value="+timeVal+">"+timeVal + " - " + line["sentence"]+ " -" + negative+"%" +"</option>");
 
 				} else{
 				var timeVal = line["timestamp"].substring(0,line["timestamp"].indexOf(","));

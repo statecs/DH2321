@@ -1,0 +1,4 @@
+[submodule "_site"]
+	path = _site
+	url = git@github.com:statecs/DH2321.git
+	branch = gh-pages
